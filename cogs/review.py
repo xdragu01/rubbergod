@@ -59,6 +59,8 @@ class Review(commands.Cog):
                 await ctx.send(messages.review_added)
             elif subcommand == 'remove':
                 if subject is None:
+                    if ctx.author.id == config.admin_id:
+                        await ctx.send(messages.review_remove_format_admin)
                     await ctx.send(messages.review_remove_format)
                 elif subject == 'id':
                     if ctx.author.id == config.admin_id:
