@@ -36,8 +36,10 @@ class Messages:
 
     uhoh_counter = "{uhohs} uh ohs od spuštění."
     uptime_message = "Up since:  `{boottime}`\nUptime:\t`{uptime}`"
-    kachna_remaining = "Do kachny zustava:  `{zustava}`"
-    kachna_opened = "Kachna otevrena !"
+    kachna_remaining = "Do kachny zbývá:  `{zbyva}`"
+    kachna_opened = "Kachna otevřená ! <:hypers:493154327318233088>"
+    kachna_temp_closed = "Kachna je bohužel zavřena <:sadcat:576171980118687754>"
+    kachna_switched = "Kachna byla nastavena na: {open_closed}"
     karma = "{user} Karma uzivatele `{target}` je: **{karma}** " \
             "(**{order}.**)\nA rozdal:\n" \
             "**{karma_pos}** pozitivní karmy " \
@@ -77,6 +79,7 @@ class Messages:
     karma_give_success = "Karma byla úspěšně přidaná."
     karma_give_negative_success = "Karma byla úspěšně odebraná."
     member_not_found = "{user} Nikoho takového jsem nenašel."
+    karma_lederboard_offser_error = "{user} Špatný offset, zadej kladné číslo"
 
     role_add_denied = "{user}, na přidání role {role} nemáš právo."
     role_remove_denied = "{user}, " \
@@ -124,10 +127,10 @@ class Messages:
                             "nebo jsi už tímhle krokem " \
                             "prošel ({toaster} pls)."
     verify_verify_format = "Očekávám dva argumenty. " \
-                           "Správný formát: " \
+                           "Správný formát:\n" \
                            "`" + prefix + "verify [FIT login nebo " \
                            "MUNI UCO] [kód]`\n" \
-                           "Pro získání kódu použij `" +\
+                           "Pro získání kódu použij\n`" +\
                            prefix + "getcode [FIT login, ve tvaru " \
                            "xlogin00, nebo MUNI UCO]`"
     verify_verify_dumbshit = "{user} Kód, " \
@@ -204,10 +207,10 @@ class Messages:
               'Odstartuje hlasování o hodnotě zatím neohodnoceného emotu.'),
              ('karma revote [emote]',
               'Odstartuje hlasování o nové hodnotě emotu.')],
-            [('leaderboard', 'Karma leaderboard'),
-             ('bajkarboard', 'Karma leaderboard reversed'),
-             ('givingboard', 'Leaderboard rozdávání pozitivní karmy.'),
-             ('ishaboard', 'Leaderboard rozdávání negativní karmy.'),
+            [('leaderboard [offset]', 'Karma leaderboard'),
+             ('bajkarboard [offset]', 'Karma leaderboard reversed'),
+             ('givingboard [offset]', 'Leaderboard rozdávání pozitivní karmy.'),
+             ('ishaboard [offset]', 'Leaderboard rozdávání negativní karmy.'),
              (review_add_format[1:], 'Přidá recenzi na předmět.'),
              (review_get_format[1:], 'Vypíše recenze na vybraný předmět.'),
              (review_remove_format[1:], 'Odstraní hodnocení.'),
@@ -222,5 +225,5 @@ class Messages:
                       'a jestli je sudý nebo lichý.'),
              ('uhoh', 'Vypíše počet uh ohs od spuštění.'),
              ('uptime', 'Vypíše čas spuštění a čas uplynulý od spuštění.'),
-             ('kachna', 'Vypíše čas do otvorení kachny.'),
+             ('kachna', 'Vypíše čas do otevření kachny.'),
              ('god', 'Vypíše tuto zprávu.')]]
