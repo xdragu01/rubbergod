@@ -461,7 +461,7 @@ class FitWide(commands.Cog):
             if error:
                 await ctx.send("Stažené databáze nějak nefunguje.")
                 return
-        except TimeoutExpired:
+        except subprocess.TimeoutExpired:
             await ctx.send("Timeout při stahování databáze.")
             return
         with open("merlin-latest", "w") as f:
