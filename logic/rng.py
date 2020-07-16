@@ -25,7 +25,9 @@ class Rng:
             else:
                 y = 0
         except ValueError:
-            return utils.fill_message("rng_generator_format_number", user=message.author.id)
+            return utils.fill_message(
+                "rng_generator_format_number", user=message.author.id
+            )
         if x > y:
             x, y = y, x  # variable values swap
         return randint(x, y)

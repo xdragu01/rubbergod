@@ -28,17 +28,30 @@ class weather(commands.Cog):
         res = requests.get(url).json()
 
         if str(res["cod"]) == "200":
-            description = "Aktuální počasí v městě " + res["name"] + ", " + res["sys"]["country"]
+            description = (
+                "Aktuální počasí v městě " + res["name"] + ", " + res["sys"]["country"]
+            )
             embed = discord.Embed(title="Počasí", description=description)
-            image = "http://openweathermap.org/img/w/" + res["weather"][0]["icon"] + ".png"
+            image = (
+                "http://openweathermap.org/img/w/" + res["weather"][0]["icon"] + ".png"
+            )
             embed.set_thumbnail(url=image)
-            weather = res["weather"][0]["main"] + " ( " + res["weather"][0]["description"] + " ) "
+            weather = (
+                res["weather"][0]["main"]
+                + " ( "
+                + res["weather"][0]["description"]
+                + " ) "
+            )
             temp = str(res["main"]["temp"]) + "°C"
             feels_temp = str(res["main"]["feels_like"]) + "°C"
             humidity = str(res["main"]["humidity"]) + "%"
             wind = str(res["wind"]["speed"]) + "m/s"
             clouds = str(res["clouds"]["all"]) + "%"
-            visibility = str(res["visibility"] / 1000) + " km" if "visibility" in res else "bez dat"
+            visibility = (
+                str(res["visibility"] / 1000) + " km"
+                if "visibility" in res
+                else "bez dat"
+            )
             embed.add_field(name="Počasí", value=weather, inline=False)
             embed.add_field(name="Teplota", value=temp, inline=True)
             embed.add_field(name="Pocitová teplota", value=feels_temp, inline=True)
@@ -53,7 +66,9 @@ class weather(commands.Cog):
             await ctx.send("Rip token -> Rebel pls fix")
         else:
             await ctx.send(
-                "Město nenalezeno! <:pepeGun:484470874246742018> (" + res["message"] + ")"
+                "Město nenalezeno! <:pepeGun:484470874246742018> ("
+                + res["message"]
+                + ")"
             )
 
 

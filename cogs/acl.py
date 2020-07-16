@@ -13,7 +13,6 @@ config = config.Config
 
 
 class Acl(commands.Cog):
-
     def __init__(self, bot):
         self.bot = bot
         self.check = room_check.RoomCheck(bot)
@@ -29,13 +28,13 @@ class Acl(commands.Cog):
             if not len(args):
                 await ctx.send(utils.fill_message("acl_help", user=ctx.author.id))
                 return
-            if args[0] == 'add':
+            if args[0] == "add":
                 await acl.handle_add(ctx, args[1:])
-            elif args[0] == 'del':
+            elif args[0] == "del":
                 await acl.handle_del(ctx, args[1:])
-            elif args[0] == 'edit':
+            elif args[0] == "edit":
                 await acl.handle_edit(ctx, args[1:])
-            elif args[0] == 'list':
+            elif args[0] == "list":
                 await acl.handle_list(ctx, args[1:])
             else:
                 await ctx.send(utils.fill_message("acl_help", user=ctx.author.id))

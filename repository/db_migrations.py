@@ -2,7 +2,7 @@ import re
 
 from repository.database import database, session
 from repository.database.karma import Karma, Karma_emoji
-from repository.database.review import (Review, ReviewRelevance, Subject)
+from repository.database.review import Review, ReviewRelevance, Subject
 from repository.database.verification import Permit, Valid_person
 from repository.database.image import Image
 from repository.review_repo import ReviewRepository
@@ -26,13 +26,13 @@ def load_dump(filename: str):
     session.query(Valid_person).delete()
     session.commit()
 
-    print(f'Loading dump from {filename}')
+    print(f"Loading dump from {filename}")
 
     data = database.base.metadata.tables.keys()
     for row in data:
         print(row)
 
-    with open(filename, "r", encoding='utf-8') as backup_file:
+    with open(filename, "r", encoding="utf-8") as backup_file:
         data = backup_file.readlines()
 
     inserts = [line for line in data if line.startswith("INSERT")]
@@ -41,46 +41,50 @@ def load_dump(filename: str):
     for insert in inserts:
         values = insert.split("VALUES", 1)[1]
         if insert.startswith("INSERT INTO `bot_karma`"):
-            values = values[1:-2].replace('\'', '')
-            values = values.replace('(', '').replace(')', '')
-            values = values.split(',')
+            values = values[1:-2].replace("'", "")
+            values = values.replace("(", "").replace(")", "")
+            values = values.split(",")
             for i in range(0, len(values), 3):
-                karma_values.append(Karma(member_ID=values[i],
-                                          karma=values[i + 1]))
+                karma_values.append(Karma(member_ID=values[i], karma=values[i + 1]))
         elif insert.startswith("INSERT INTO `bot_karma_giving`"):
-            values = values[1:-2].replace('\'', '')
-            values = values.replace('(', '').replace(')', '')
-            values = values.split(',')
+            values = values[1:-2].replace("'", "")
+            values = values.replace("(", "").replace(")", "")
+            values = values.split(",")
             for i in range(0, len(values), 4):
-                karma_values.append(Karma(member_ID=values[i],
-                                          positive=values[i + 1],
-                                          negative=values[i + 2]))
+                karma_values.append(
+                    Karma(
+                        member_ID=values[i],
+                        positive=values[i + 1],
+                        negative=values[i + 2],
+                    )
+                )
         elif insert.startswith("INSERT INTO `bot_karma_emoji`"):
-            values = values[1:-2].replace('\'', '')
-            values = values.replace('(', '').replace(')', '')
-            values = values.split(',')
+            values = values[1:-2].replace("'", "")
+            values = values.replace("(", "").replace(")", "")
+            values = values.split(",")
             for i in range(0, len(values), 2):
-                session.add(Karma_emoji(emoji_ID=values[i],
-                                        value=values[i + 1]))
+                session.add(Karma_emoji(emoji_ID=values[i], value=values[i + 1]))
         elif insert.startswith("INSERT INTO `bot_permit`"):
             values = values[1:-2]
-            values = values.replace('(', '').replace(')', '')
-            values = re.split(r',(?=\')', values)
-            values = [value.replace('\'', '') for value in values]
+            values = values.replace("(", "").replace(")", "")
+            values = re.split(r",(?=\')", values)
+            values = [value.replace("'", "") for value in values]
             for i in range(0, len(values), 3):
-                session.add(Permit(login=values[i],
-                                   discord_ID=values[i + 2]))
+                session.add(Permit(login=values[i], discord_ID=values[i + 2]))
         elif insert.startswith("INSERT INTO `bot_valid_persons`"):
-            values = values[1:-2].replace('\'', '')
-            values = values.replace('(', '').replace(')', '')
-            values = values.split(',')
+            values = values[1:-2].replace("'", "")
+            values = values.replace("(", "").replace(")", "")
+            values = values.split(",")
             for i in range(0, len(values), 5):
-                session.add(Valid_person(login=values[i],
-                                         name=values[i + 1],
-                                         year=values[i + 2],
-                                         code=values[i + 3]
-                                         if values[i + 3] != "NULL" else None,
-                                         status=values[i + 4]))
+                session.add(
+                    Valid_person(
+                        login=values[i],
+                        name=values[i + 1],
+                        year=values[i + 2],
+                        code=values[i + 3] if values[i + 3] != "NULL" else None,
+                        status=values[i + 4],
+                    )
+                )
 
     for karma in karma_values:
         session.merge(karma)
@@ -100,6 +104,6 @@ def load_subjects():
 
     review_repo = ReviewRepository()
     for subject in subjects:
-        print(f'Importing subject {subject}')
+        print(f"Importing subject {subject}")
         review_repo.add_subject(subject)
-    print('Import complete')
+    print("Import complete")
