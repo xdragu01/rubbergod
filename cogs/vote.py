@@ -37,12 +37,21 @@ class Vote(commands.Cog):
 
     @commands.cooldown(rate=5, per=20.0, type=commands.BucketType.user)
     @commands.command(rest_is_raw=True)
-    async def vote(self, ctx, date: typing.Optional[DateConverter],
-                   time: typing.Optional[TimeConverter], *, message):
+    async def vote(
+        self,
+        ctx,
+        date: typing.Optional[DateConverter],
+        time: typing.Optional[TimeConverter],
+        *,
+        message
+    ):
         await self.voter.handle_vote(ctx, date, time, message)
 
     def __handle(self, msg_id, user_id, emoji, add, raw):
-        t = (msg_id, user_id,)
+        t = (
+            msg_id,
+            user_id,
+        )
 
         if t in self.handled:
             self.handled.remove(t)
@@ -52,8 +61,7 @@ class Vote(commands.Cog):
             self.handled.append(t)
         return False
 
-    async def handle_raw_reaction(self, payload: RawReactionActionEvent,
-                                  added: bool):
+    async def handle_raw_reaction(self, payload: RawReactionActionEvent, added: bool):
         chan = await self.bot.fetch_channel(payload.channel_id)
         try:
             msg = await chan.fetch_message(payload.message_id)
@@ -70,8 +78,7 @@ class Vote(commands.Cog):
 
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction: Reaction, user):
-        if self.__handle(reaction.message.id, user.id, reaction.emoji, True,
-                         False):
+        if self.__handle(reaction.message.id, user.id, reaction.emoji, True, False):
             # print("Already handled")
             return
 
@@ -80,8 +87,9 @@ class Vote(commands.Cog):
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload: RawReactionActionEvent):
-        if self.__handle(payload.message_id, payload.user_id, payload.emoji,
-                         True, True):
+        if self.__handle(
+            payload.message_id, payload.user_id, payload.emoji, True, True
+        ):
             # print("Already handled (in RAW)")
             return
 
@@ -95,8 +103,7 @@ class Vote(commands.Cog):
 
     @commands.Cog.listener()
     async def on_reaction_remove(self, reaction: Reaction, user):
-        if self.__handle(reaction.message.id, user.id, reaction.emoji, False,
-                         False):
+        if self.__handle(reaction.message.id, user.id, reaction.emoji, False, False):
             # print("Already handled")
             return
 
@@ -105,8 +112,9 @@ class Vote(commands.Cog):
 
     @commands.Cog.listener()
     async def on_raw_reaction_remove(self, payload: RawReactionActionEvent):
-        if self.__handle(payload.message_id, payload.user_id, payload.emoji,
-                         False, True):
+        if self.__handle(
+            payload.message_id, payload.user_id, payload.emoji, False, True
+        ):
             # print("Already handled (in RAW)")
             return
 

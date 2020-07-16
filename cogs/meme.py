@@ -13,7 +13,6 @@ uhoh_counter = 0
 
 
 class Meme(commands.Cog):
-
     def __init__(self, bot):
         self.bot = bot
 
@@ -22,9 +21,11 @@ class Meme(commands.Cog):
         global uhoh_counter
 
         if message.author.bot:
-            if message.author.id == config.grillbot_id and \
-               message.content.startswith("<:") and \
-               message.content.endswith(">"):
+            if (
+                message.author.id == config.grillbot_id
+                and message.content.startswith("<:")
+                and message.content.endswith(">")
+            ):
                 await message.channel.send(message.content)
             return
 
@@ -39,7 +40,7 @@ class Meme(commands.Cog):
         await ctx.send(utils.fill_message("uhoh_counter", uhohs=uhoh_counter))
 
     @commands.cooldown(rate=5, per=20.0, type=commands.BucketType.user)
-    @commands.command(name='??')
+    @commands.command(name="??")
     async def question(self, ctx):
         await ctx.send(choice(messages.question))
 

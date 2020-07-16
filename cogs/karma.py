@@ -14,7 +14,6 @@ messages = messages.Messages
 
 
 class Karma(commands.Cog):
-
     def __init__(self, bot):
         self.bot = bot
         self.karma = karma.Karma(bot, karma_r)
@@ -25,32 +24,37 @@ class Karma(commands.Cog):
         ctx = await utils.reaction_get_ctx(self.bot, payload)
         if ctx is None:
             return
-        if ctx['emoji'] == "⏹️":
+        if ctx["emoji"] == "⏹️":
             return
             # grillbot emoji for removing message causes errors
-        if ctx['message'].content.startswith(config.role_string) or\
-           ctx['channel'].id in config.role_channels:
+        if (
+            ctx["message"].content.startswith(config.role_string)
+            or ctx["channel"].id in config.role_channels
+        ):
             return
-        elif ctx['message'].content.startswith(messages.karma_vote_message_hack):
-            if ctx['emoji'] not in ["✅", "❌", "0⃣"]:
-                await ctx['message'].remove_reaction(ctx['emoji'], ctx['member'])
+        elif ctx["message"].content.startswith(messages.karma_vote_message_hack):
+            if ctx["emoji"] not in ["✅", "❌", "0⃣"]:
+                await ctx["message"].remove_reaction(ctx["emoji"], ctx["member"])
             else:
                 users = []
-                for reaction in ctx['message'].reactions:
+                for reaction in ctx["message"].reactions:
                     users.append(await reaction.users().flatten())
                 # Flatten the final list
                 users = [x for y in users for x in y]
-                if users.count(ctx['member']) > 1:
-                    await ctx['message'].remove_reaction(ctx['emoji'], ctx['member'])
-        elif ctx['member'].id != ctx['message'].author.id and\
-                ctx['guild'].id == config.guild_id and\
-                ctx['message'].channel.id not in \
-                config.karma_banned_channels and \
-                config.karma_ban_role_id not in map(lambda x: x.id, ctx['member'].roles):
-            if isinstance(ctx['emoji'], str):
-                karma_r.karma_emoji(ctx['message'].author, ctx['member'], ctx['emoji'])
+                if users.count(ctx["member"]) > 1:
+                    await ctx["message"].remove_reaction(ctx["emoji"], ctx["member"])
+        elif (
+            ctx["member"].id != ctx["message"].author.id
+            and ctx["guild"].id == config.guild_id
+            and ctx["message"].channel.id not in config.karma_banned_channels
+            and config.karma_ban_role_id not in map(lambda x: x.id, ctx["member"].roles)
+        ):
+            if isinstance(ctx["emoji"], str):
+                karma_r.karma_emoji(ctx["message"].author, ctx["member"], ctx["emoji"])
             else:
-                karma_r.karma_emoji(ctx['message'].author, ctx['member'], ctx['emoji'].id)
+                karma_r.karma_emoji(
+                    ctx["message"].author, ctx["member"], ctx["emoji"].id
+                )
 
     @commands.Cog.listener()
     async def on_raw_reaction_remove(self, payload):
@@ -58,15 +62,20 @@ class Karma(commands.Cog):
         if ctx is None:
             return
 
-        if ctx['member'].id != ctx['message'].author.id and \
-                ctx['guild'].id == config.guild_id and \
-                ctx['message'].channel.id not in \
-                config.karma_banned_channels and \
-                config.karma_ban_role_id not in map(lambda x: x.id, ctx['member'].roles):
-            if isinstance(ctx['emoji'], str):
-                karma_r.karma_emoji_remove(ctx['message'].author, ctx['member'], ctx['emoji'])
+        if (
+            ctx["member"].id != ctx["message"].author.id
+            and ctx["guild"].id == config.guild_id
+            and ctx["message"].channel.id not in config.karma_banned_channels
+            and config.karma_ban_role_id not in map(lambda x: x.id, ctx["member"].roles)
+        ):
+            if isinstance(ctx["emoji"], str):
+                karma_r.karma_emoji_remove(
+                    ctx["message"].author, ctx["member"], ctx["emoji"]
+                )
             else:
-                karma_r.karma_emoji_remove(ctx['message'].author, ctx['member'], ctx['emoji'].id)
+                karma_r.karma_emoji_remove(
+                    ctx["message"].author, ctx["member"], ctx["emoji"].id
+                )
 
     @commands.cooldown(rate=5, per=30.0, type=commands.BucketType.user)
     @commands.group(pass_context=True)
@@ -78,15 +87,17 @@ class Karma(commands.Cog):
                 await ctx.send(self.karma.karma_get(ctx.author))
                 await self.check.botroom_check(ctx.message)
             else:
-                await ctx.send(utils.fill_message("karma_invalid_command", user=ctx.author.id))
+                await ctx.send(
+                    utils.fill_message("karma_invalid_command", user=ctx.author.id)
+                )
 
     @karma.command()
     async def stalk(self, ctx, *args):
         try:
             converter = commands.MemberConverter()
-            target_member = await converter.convert(ctx=ctx, argument=' '.join(args))
+            target_member = await converter.convert(ctx=ctx, argument=" ".join(args))
         except commands.errors.BadArgument:
-            await ctx.send(utils.fill_message('member_not_found', user=ctx.author.id))
+            await ctx.send(utils.fill_message("member_not_found", user=ctx.author.id))
             return
 
         await ctx.send(self.karma.karma_get(ctx.author, target_member))
@@ -116,7 +127,9 @@ class Karma(commands.Cog):
                 except discord.errors.Forbidden:
                     return
             else:
-                dc_vote_room = discord.utils.get(ctx.guild.channels, id=config.vote_room)
+                dc_vote_room = discord.utils.get(
+                    ctx.guild.channels, id=config.vote_room
+                )
                 await ctx.send(utils.fill_message("vote_room_only", room=dc_vote_room))
 
     @karma.command()
@@ -132,7 +145,9 @@ class Karma(commands.Cog):
                 except discord.errors.Forbidden:
                     return
             else:
-                dc_vote_room = discord.utils.get(ctx.guild.channels, id=config.vote_room)
+                dc_vote_room = discord.utils.get(
+                    ctx.guild.channels, id=config.vote_room
+                )
                 await ctx.send(utils.fill_message("vote_room_only", room=dc_vote_room))
 
     @karma.command()
@@ -144,9 +159,11 @@ class Karma(commands.Cog):
     async def message(self, ctx, *args):
         try:
             converter = commands.MessageConverter()
-            target_message = await converter.convert(ctx=ctx, argument=' '.join(args))
+            target_message = await converter.convert(ctx=ctx, argument=" ".join(args))
         except commands.errors.BadArgument:
-            await ctx.send(utils.fill_message("karma_message_format", user=ctx.author.id))
+            await ctx.send(
+                utils.fill_message("karma_message_format", user=ctx.author.id)
+            )
             return
         await self.karma.message_karma(ctx, target_message)
 
@@ -161,7 +178,7 @@ class Karma(commands.Cog):
         if not await self.validate_leaderboard_offset(start, ctx):
             return
 
-        await self.karma.leaderboard(ctx.message.channel, 'get', 'DESC', start)
+        await self.karma.leaderboard(ctx.message.channel, "get", "DESC", start)
         await self.check.botroom_check(ctx.message)
 
     @commands.cooldown(rate=2, per=30.0, type=commands.BucketType.user)
@@ -170,7 +187,7 @@ class Karma(commands.Cog):
         if not await self.validate_leaderboard_offset(start, ctx):
             return
 
-        await self.karma.leaderboard(ctx.message.channel, 'get', 'ASC', start)
+        await self.karma.leaderboard(ctx.message.channel, "get", "ASC", start)
         await self.check.botroom_check(ctx.message)
 
     @commands.cooldown(rate=2, per=30.0, type=commands.BucketType.user)
@@ -179,7 +196,7 @@ class Karma(commands.Cog):
         if not await self.validate_leaderboard_offset(start, ctx):
             return
 
-        await self.karma.leaderboard(ctx.message.channel, 'give', 'DESC', start)
+        await self.karma.leaderboard(ctx.message.channel, "give", "DESC", start)
         await self.check.botroom_check(ctx.message)
 
     @commands.cooldown(rate=2, per=30.0, type=commands.BucketType.user)
@@ -188,7 +205,7 @@ class Karma(commands.Cog):
         if not await self.validate_leaderboard_offset(start, ctx):
             return
 
-        await self.karma.leaderboard(ctx.message.channel, 'give', 'ASC', start)
+        await self.karma.leaderboard(ctx.message.channel, "give", "ASC", start)
         await self.check.botroom_check(ctx.message)
 
     @leaderboard.error
@@ -197,7 +214,9 @@ class Karma(commands.Cog):
     @ishaboard.error
     async def leaderboard_error(self, ctx, error):
         if isinstance(error, commands.BadArgument):
-            await ctx.send(utils.fill_message("karma_lederboard_offser_error", user=ctx.author.id))
+            await ctx.send(
+                utils.fill_message("karma_lederboard_offser_error", user=ctx.author.id)
+            )
 
     @revote.error
     @vote.error
@@ -205,13 +224,19 @@ class Karma(commands.Cog):
     @transfer.error
     async def karma_error(self, ctx, error):
         if isinstance(error, commands.CheckFailure):
-            await ctx.send(utils.fill_message("insufficient_rights", user=ctx.author.id))
+            await ctx.send(
+                utils.fill_message("insufficient_rights", user=ctx.author.id)
+            )
 
-    async def validate_leaderboard_offset(self, offset: int, ctx: commands.Context) -> bool:
-        if (not 0 < offset < 100000000):  # Any value larger than the server
+    async def validate_leaderboard_offset(
+        self, offset: int, ctx: commands.Context
+    ) -> bool:
+        if not 0 < offset < 100000000:  # Any value larger than the server
             # user cnt and lower than 32bit
             # int max will do
-            await ctx.send(utils.fill_message("karma_lederboard_offser_error", user=ctx.author.id))
+            await ctx.send(
+                utils.fill_message("karma_lederboard_offser_error", user=ctx.author.id)
+            )
             return False
 
         return True

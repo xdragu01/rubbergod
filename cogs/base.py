@@ -27,11 +27,12 @@ class Base(commands.Cog):
     async def on_command_error(self, ctx, error):
         # The local handlers so far only catch bad arguments so we still
         # want to print the rest
-        if (isinstance(error, commands.BadArgument) or
-           isinstance(error, commands.errors.CheckFailure) or
-           isinstance(error, commands.errors.MissingAnyRole) or
-           isinstance(error, commands.errors.MissingRequiredArgument)) and \
-           hasattr(ctx.command, 'on_error'):
+        if (
+            isinstance(error, commands.BadArgument)
+            or isinstance(error, commands.errors.CheckFailure)
+            or isinstance(error, commands.errors.MissingAnyRole)
+            or isinstance(error, commands.errors.MissingRequiredArgument)
+        ) and hasattr(ctx.command, "on_error"):
             return
 
         if isinstance(error, commands.UserInputError):
@@ -49,7 +50,9 @@ class Base(commands.Cog):
             return
 
         output = "Ignoring exception in command {}:\n".format(ctx.command)
-        output += "".join(traceback.format_exception(type(error), error, error.__traceback__))
+        output += "".join(
+            traceback.format_exception(type(error), error, error.__traceback__)
+        )
         channel = self.bot.get_channel(config.bot_dev_channel)
         print(output)
         output = utils.cut_string(output, 1900)
@@ -62,7 +65,11 @@ class Base(commands.Cog):
     async def uptime(self, ctx):
         now = datetime.datetime.now().replace(microsecond=0)
         delta = now - boottime
-        await ctx.send(utils.fill_message("uptime_message", boottime=str(boottime), uptime=str(delta)))
+        await ctx.send(
+            utils.fill_message(
+                "uptime_message", boottime=str(boottime), uptime=str(delta)
+            )
+        )
 
     @commands.cooldown(rate=2, per=60.0, type=commands.BucketType.user)
     @commands.command(aliases=["help"])
@@ -89,39 +96,42 @@ class Base(commands.Cog):
         if ctx is None:
             return
 
-        if ctx['message'].embeds and ctx['message'].embeds[0].title == "Rubbergod":
-            if ctx['emoji'] in ["◀", "▶"]:
-                page = int(ctx['message'].embeds[0].footer.text[5])
-                next_page = utils.pagination_next(ctx['emoji'], page, len(messages.info))
+        if ctx["message"].embeds and ctx["message"].embeds[0].title == "Rubbergod":
+            if ctx["emoji"] in ["◀", "▶"]:
+                page = int(ctx["message"].embeds[0].footer.text[5])
+                next_page = utils.pagination_next(
+                    ctx["emoji"], page, len(messages.info)
+                )
                 if next_page:
                     embed = self.make_embed(next_page)
-                    await ctx['message'].edit(embed=embed)
+                    await ctx["message"].edit(embed=embed)
             try:
-                await ctx['message'].remove_reaction(ctx['emoji'], ctx['member'])
+                await ctx["message"].remove_reaction(ctx["emoji"], ctx["member"])
             except Exception:
                 pass
 
     def make_embed(self, page):
-        embed = discord.Embed(title="Rubbergod",
-                              description="Nejlepší a nejúžasnější bot ever.",
-                              color=0xeee657)
+        embed = discord.Embed(
+            title="Rubbergod",
+            description="Nejlepší a nejúžasnější bot ever.",
+            color=0xEEE657,
+        )
 
         prefix = config.default_prefix
 
         embed.add_field(name="Autor", value="Toaster#1111")
 
         # Shows the number of servers the bot is member of.
-        embed.add_field(name="Počet serverů s touto instancí bota",
-                        value=f"{len(self.bot.guilds)}")
+        embed.add_field(
+            name="Počet serverů s touto instancí bota", value=f"{len(self.bot.guilds)}"
+        )
 
         embed.add_field(name="\u200b", value="Příkazy:", inline=False)
 
         info = messages.info[page - 1]
 
         for command in info:
-            embed.add_field(name=prefix + command[0],
-                            value=command[1],
-                            inline=False)
+            embed.add_field(name=prefix + command[0], value=command[1], inline=False)
 
         git_hash = utils.git_hash()
         footer_text = f"Commit {git_hash}"
@@ -129,9 +139,12 @@ class Base(commands.Cog):
         if len(messages.info) > 1:
             footer_text = f"Page {page} | {footer_text}"
 
-        embed.set_footer(text=footer_text, icon_url="https://cdn.discordapp.com/avatars/"
-                         "560917571663298568/b93e8c1e93c2d18b"
-                         "fbd226a0b614cf57.png?size=32")
+        embed.set_footer(
+            text=footer_text,
+            icon_url="https://cdn.discordapp.com/avatars/"
+            "560917571663298568/b93e8c1e93c2d18b"
+            "fbd226a0b614cf57.png?size=32",
+        )
         return embed
 
 

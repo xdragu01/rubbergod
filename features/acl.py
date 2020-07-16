@@ -7,7 +7,6 @@ messages = messages.Messages
 
 
 class Acl(BaseFeature):
-
     def __init__(self, acl_repository: AclRepository):
         self.acl_repo = acl_repository
 
@@ -103,15 +102,14 @@ class Acl(BaseFeature):
 
     async def list_group(self, ctx, args):
         groups = self.acl_repo.list_group(*args)
-        table = (("{:>20}" * 3) + '\n') * (len(groups) + 1)
+        table = (("{:>20}" * 3) + "\n") * (len(groups) + 1)
         content = []
         for group in groups:
             content.append(str(group.id))
             content.append(str(group.name))
             content.append(str(group.parent_id))
 
-        table = "```" + table.format("id", "name", "parent_id", *content) +\
-                "```"
+        table = "```" + table.format("id", "name", "parent_id", *content) + "```"
         await ctx.send(table)
 
     async def add_rule(self, ctx, args):
@@ -128,15 +126,18 @@ class Acl(BaseFeature):
 
     async def list_rule(self, ctx, args):
         rules = self.acl_repo.list_rule(*args)
-        table = (("{:>20}" * 3) + '\n') * (len(rules) + 1)
+        table = (("{:>20}" * 3) + "\n") * (len(rules) + 1)
         content = []
         for rule in rules:
             content.append(str(rule.id))
             content.append(str(rule.acl_group_id))
             content.append(str(rule.acl_snowflake))
 
-        table = "```" + table.format("id", "acl_group_id", "acl_snowflake",
-                                     *content) + "```"
+        table = (
+            "```"
+            + table.format("id", "acl_group_id", "acl_snowflake", *content)
+            + "```"
+        )
         await ctx.send(table)
 
     async def add_role(self, ctx, args):
@@ -153,7 +154,7 @@ class Acl(BaseFeature):
 
     async def list_role(self, ctx, args):
         roles = self.acl_repo.list_role(*args)
-        table = (("{:>16}" * 5) + '\n') * (len(roles) + 1)
+        table = (("{:>16}" * 5) + "\n") * (len(roles) + 1)
         content = []
         for role in roles:
             content.append(str(role.id))
@@ -162,9 +163,13 @@ class Acl(BaseFeature):
             content.append(str(role.role_name))
             content.append(str(role.perms))
 
-        table = "```" + table.format("id", "acl_group_id", "role_id",
-                                     "role_name", "perms", *content) +\
-                "```"
+        table = (
+            "```"
+            + table.format(
+                "id", "acl_group_id", "role_id", "role_name", "perms", *content
+            )
+            + "```"
+        )
         await ctx.send(table)
 
     async def add_user(self, ctx, args):
@@ -181,7 +186,7 @@ class Acl(BaseFeature):
 
     async def list_user(self, ctx, args):
         users = self.acl_repo.list_user(*args)
-        table = (("{:>18}" * 4) + '\n') * (len(users) + 1)
+        table = (("{:>18}" * 4) + "\n") * (len(users) + 1)
         content = []
         for user in users:
             content.append(str(user.id))
@@ -189,6 +194,9 @@ class Acl(BaseFeature):
             content.append(str(user.user_id))
             content.append(str(user.perms))
 
-        table = "```" + table.format("id", "acl_group_id", "user_id", "perms",
-                                     *content) + "```"
+        table = (
+            "```"
+            + table.format("id", "acl_group_id", "user_id", "perms", *content)
+            + "```"
+        )
         await ctx.send(table)

@@ -89,7 +89,9 @@ class Warden(commands.Cog):
                     await orig.remove_reaction("🤷🏻", self.bot.user)
                     await orig.remove_reaction("🤔", self.bot.user)
                 except Exception as e:
-                    print("Warden:on_raw_reaction_add", "Could not remove bot's emote", e)
+                    print(
+                        "Warden:on_raw_reaction_add", "Could not remove bot's emote", e
+                    )
                     return
                 try:
                     await message.delete()
@@ -160,7 +162,9 @@ class Warden(commands.Cog):
             # update info on every 10th message
             if i % 50 == 0:
                 await msg.edit(
-                    content=template.format(i, len(messages), (i / len(messages) * 100), ctr_hashes)
+                    content=template.format(
+                        i, len(messages), (i / len(messages) * 100), ctr_hashes
+                    )
                 )
 
             if len(message.attachments) == 0:
@@ -210,7 +214,9 @@ class Warden(commands.Cog):
             if hamming_min <= self.limit_soft:
                 await self._announceDuplicate(message, duplicate, hamming_min)
 
-    async def _announceDuplicate(self, message: discord.Message, original: object, hamming: int):
+    async def _announceDuplicate(
+        self, message: discord.Message, original: object, hamming: int
+    ):
         """Send message that a post is a original
         original: object
         hamming: Hamming distance between the image and closest database entry
@@ -236,13 +242,19 @@ class Warden(commands.Cog):
             link = "404 <:sadcat:576171980118687754>"
             author = "_??? (404)_"
 
-        desc = utils.fill_message("repost_description", user=message.author.id, value=prob)
-        embed = discord.Embed(title=title, color=0xCB410B, description=desc, url=message.jump_url)
+        desc = utils.fill_message(
+            "repost_description", user=message.author.id, value=prob
+        )
+        embed = discord.Embed(
+            title=title, color=0xCB410B, description=desc, url=message.jump_url
+        )
         embed.add_field(name=f"**{author}**, {timestamp}", value=link, inline=False)
 
         embed.add_field(
             name=messages.Messages.repost_title,
-            value="_" + utils.fill_message("repost_content", limit=config.duplicate_limit) + "_",
+            value="_"
+            + utils.fill_message("repost_content", limit=config.duplicate_limit)
+            + "_",
         )
         embed.set_footer(text=message.id)
         send = await message.channel.send(embed=embed)
@@ -251,7 +263,9 @@ class Warden(commands.Cog):
     @scan.error
     async def role_checks_error(self, ctx, error):
         if isinstance(error, commands.errors.CheckFailure):
-            await ctx.send(utils.fill_message("insufficient_rights", user=ctx.author.id))
+            await ctx.send(
+                utils.fill_message("insufficient_rights", user=ctx.author.id)
+            )
 
 
 def setup(bot):

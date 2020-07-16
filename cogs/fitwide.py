@@ -17,8 +17,7 @@ from repository.database.year_increment import User_backup
 user_r = user_repo.UserRepository()
 
 config = config.Config
-arcas_time = (datetime.datetime.utcnow() -
-              datetime.timedelta(hours=config.arcas_delay))
+arcas_time = datetime.datetime.utcnow() - datetime.timedelta(hours=config.arcas_delay)
 
 
 class FitWide(commands.Cog):
@@ -35,8 +34,10 @@ class FitWide(commands.Cog):
     @commands.Cog.listener()
     async def on_typing(self, channel, user, when):
         global arcas_time
-        if arcas_time + datetime.timedelta(hours=config.arcas_delay) <\
-           when and config.arcas_id == user.id:
+        if (
+            arcas_time + datetime.timedelta(hours=config.arcas_delay) < when
+            and config.arcas_id == user.id
+        ):
             arcas_time = when
             gif = discord.Embed()
             gif.set_image(url="https://i.imgur.com/v2ueHcl.gif")
@@ -66,7 +67,9 @@ class FitWide(commands.Cog):
         else:
             found_members.sort(key=lambda x: x[1], reverse=True)
             for member, role_count in found_members[:limit]:
-                line = "{id} - {name} ({num} roli)\n".format(id=member.id, name=member.name, num=role_count)
+                line = "{id} - {name} ({num} roli)\n".format(
+                    id=member.id, name=member.name, num=role_count
+                )
                 if len(line) + len(msg) >= 2000:
                     await ctx.send(msg)
                     msg = line
@@ -78,9 +81,15 @@ class FitWide(commands.Cog):
     @commands.cooldown(rate=2, per=20.0, type=commands.BucketType.user)
     @commands.check(is_admin)
     @commands.command()
-    async def role_check(self, ctx, p_verified: bool = True,
-                         p_move: bool = True, p_status: bool = True,
-                         p_role: bool = True, p_muni: bool = True):
+    async def role_check(
+        self,
+        ctx,
+        p_verified: bool = True,
+        p_move: bool = True,
+        p_status: bool = True,
+        p_role: bool = True,
+        p_muni: bool = True,
+    ):
         guild = self.bot.get_guild(config.guild_id)
         members = guild.members
 
@@ -91,36 +100,57 @@ class FitWide(commands.Cog):
         dropout = discord.utils.get(guild.roles, name="Dropout")
         muni = discord.utils.get(guild.roles, name="MUNI")
 
-        verified = [member for member in members
-                    if verify in member.roles and
-                    host not in member.roles and
-                    bot not in member.roles and
-                    poradce not in member.roles]
+        verified = [
+            member
+            for member in members
+            if verify in member.roles
+            and host not in member.roles
+            and bot not in member.roles
+            and poradce not in member.roles
+        ]
 
         if not p_muni:
-            verified = [member for member in verified
-                        if muni not in member.roles]
+            verified = [member for member in verified if muni not in member.roles]
 
         permited = session.query(Permit)
         permited_ids = [int(person.discord_ID) for person in permited]
 
-        years = ["0BIT", "1BIT", "2BIT", "3BIT", "4BIT+",
-                 "0MIT", "1MIT", "2MIT", "3MIT+", "Dropout"]
+        years = [
+            "0BIT",
+            "1BIT",
+            "2BIT",
+            "3BIT",
+            "4BIT+",
+            "0MIT",
+            "1MIT",
+            "2MIT",
+            "3MIT+",
+            "Dropout",
+        ]
 
         year_roles = {year: discord.utils.get(guild.roles, name=year) for year in years}
 
         for member in verified:
             if member.id not in permited_ids:
                 if p_verified:
-                    await ctx.send("Ve verified databázi jsem nenašel: " +
-                                   utils.generate_mention(member.id))
+                    await ctx.send(
+                        "Ve verified databázi jsem nenašel: "
+                        + utils.generate_mention(member.id)
+                    )
             else:
                 try:
-                    login = session.query(Permit).\
-                        filter(Permit.discord_ID == str(member.id)).one().login
+                    login = (
+                        session.query(Permit)
+                        .filter(Permit.discord_ID == str(member.id))
+                        .one()
+                        .login
+                    )
 
-                    person = session.query(Valid_person).\
-                        filter(Valid_person.login == login).one()
+                    person = (
+                        session.query(Valid_person)
+                        .filter(Valid_person.login == login)
+                        .one()
+                    )
                 except NoResultFound:
                     continue
 
@@ -138,34 +168,61 @@ class FitWide(commands.Cog):
                             if role in member.roles:
                                 await member.add_roles(correct_role)
                                 await member.remove_roles(role)
-                                await ctx.send("Přesouvám: " + member.display_name +
-                                               " z " + role_name + " do " + year)
+                                await ctx.send(
+                                    "Přesouvám: "
+                                    + member.display_name
+                                    + " z "
+                                    + role_name
+                                    + " do "
+                                    + year
+                                )
                                 break
                         else:
                             await member.add_roles(dropout)
-                            await ctx.send("Přesouvám: " + member.display_name +
-                                           " z " + role_name + " do dropout")
+                            await ctx.send(
+                                "Přesouvám: "
+                                + member.display_name
+                                + " z "
+                                + role_name
+                                + " do dropout"
+                            )
                     elif p_role:
-                        await ctx.send("Nesedí mi role u: " +
-                                       utils.generate_mention(member.id) +
-                                       ", měl by mít roli: " + year)
+                        await ctx.send(
+                            "Nesedí mi role u: "
+                            + utils.generate_mention(member.id)
+                            + ", měl by mít roli: "
+                            + year
+                        )
                 elif year is None:
                     if p_move:
                         for role_name, role in year_roles.items():
                             if role in member.roles:
                                 await member.add_roles(dropout)
                                 await member.remove_roles(role)
-                                await ctx.send("Přesouvám: " + member.display_name +
-                                               " z " + role_name + " do dropout")
+                                await ctx.send(
+                                    "Přesouvám: "
+                                    + member.display_name
+                                    + " z "
+                                    + role_name
+                                    + " do dropout"
+                                )
                                 break
                         else:
                             await member.add_roles(dropout)
-                            await ctx.send("Přesouvám: " + member.display_name +
-                                           " z " + role_name + " do dropout")
+                            await ctx.send(
+                                "Přesouvám: "
+                                + member.display_name
+                                + " z "
+                                + role_name
+                                + " do dropout"
+                            )
                     elif p_role:
-                        await ctx.send("Nesedí mi role u: " +
-                                       utils.generate_mention(member.id) +
-                                       ", má teď ročník: " + person.year)
+                        await ctx.send(
+                            "Nesedí mi role u: "
+                            + utils.generate_mention(member.id)
+                            + ", má teď ročník: "
+                            + person.year
+                        )
 
         await ctx.send("Done")
 
@@ -177,15 +234,15 @@ class FitWide(commands.Cog):
 
         guild = self.bot.get_guild(config.guild_id)
 
-        BIT_names = [str(x) + "BIT" + ("+" if x == 4 else "")
-                     for x in range(5)]
-        BIT = [discord.utils.get(guild.roles, name=role_name)
-               for role_name in BIT_names]
+        BIT_names = [str(x) + "BIT" + ("+" if x == 4 else "") for x in range(5)]
+        BIT = [
+            discord.utils.get(guild.roles, name=role_name) for role_name in BIT_names
+        ]
 
-        MIT_names = [str(x) + "MIT" + ("+" if x == 3 else "")
-                     for x in range(4)]
-        MIT = [discord.utils.get(guild.roles, name=role_name)
-               for role_name in MIT_names]
+        MIT_names = [str(x) + "MIT" + ("+" if x == 3 else "") for x in range(4)]
+        MIT = [
+            discord.utils.get(guild.roles, name=role_name) for role_name in MIT_names
+        ]
 
         # pridat kazdeho 3BIT a 2MIT cloveka do DB pred tim nez je jebnem do
         # 4BIT+ respektive 3MIT+ role kvuli rollbacku
@@ -208,24 +265,26 @@ class FitWide(commands.Cog):
         await BIT[2].edit(name="3BIT", color=BIT_colors[3])
         await BIT[1].edit(name="2BIT", color=BIT_colors[2])
         await BIT[0].edit(name="1BIT", color=BIT_colors[1])
-        bit0 = await guild.create_role(name='0BIT', color=BIT_colors[0])
+        bit0 = await guild.create_role(name="0BIT", color=BIT_colors[0])
         await bit0.edit(position=BIT[0].position - 1)
 
         MIT_colors = [role.color for role in MIT]
         await MIT[2].delete()
         await MIT[1].edit(name="2MIT", color=MIT_colors[2])
         await MIT[0].edit(name="1MIT", color=MIT_colors[1])
-        mit0 = await guild.create_role(name='0MIT', color=MIT_colors[0])
+        mit0 = await guild.create_role(name="0MIT", color=MIT_colors[0])
         await mit0.edit(position=MIT[0].position - 1)
 
         general_names = [str(x) + "bit-general" for x in range(4)]
         terminy_names = [str(x) + "bit-terminy" for x in range(1, 3)]
-        general_channels = [discord.utils.get(guild.channels,
-                                              name=channel_name)
-                            for channel_name in general_names]
-        terminy_channels = [discord.utils.get(guild.channels,
-                                              name=channel_name)
-                            for channel_name in terminy_names]
+        general_channels = [
+            discord.utils.get(guild.channels, name=channel_name)
+            for channel_name in general_names
+        ]
+        terminy_channels = [
+            discord.utils.get(guild.channels, name=channel_name)
+            for channel_name in terminy_names
+        ]
         # TODO: do smth about 4bit general next year, delete it in the meantime
         bit4_general = discord.utils.get(guild.channels, name="4bit-general")
         if bit4_general is not None:
@@ -238,16 +297,16 @@ class FitWide(commands.Cog):
         await general_channels[0].edit(name="1bit-general")
         # create 0bit-general
         overwrites = {
-            guild.default_role:
-                discord.PermissionOverwrite(read_messages=False),
-            discord.utils.get(guild.roles, name="0BIT"):
-                discord.PermissionOverwrite(read_messages=True,
-                                            send_messages=True)
+            guild.default_role: discord.PermissionOverwrite(read_messages=False),
+            discord.utils.get(guild.roles, name="0BIT"): discord.PermissionOverwrite(
+                read_messages=True, send_messages=True
+            ),
         }
         await guild.create_text_channel(
-            '0bit-general', overwrites=overwrites,
+            "0bit-general",
+            overwrites=overwrites,
             category=general_channels[0].category,
-            position=general_channels[0].position - 1
+            position=general_channels[0].position - 1,
         )
 
         # delete 3bit-terminy
@@ -257,63 +316,73 @@ class FitWide(commands.Cog):
         await terminy_channels[0].edit(name="2bit-terminy")
         # create 1bit-terminy
         overwrites = {
-            guild.default_role:
-                discord.PermissionOverwrite(read_messages=False),
-            discord.utils.get(guild.roles, name="1BIT"):
-                discord.PermissionOverwrite(read_messages=True,
-                                            send_messages=False)
+            guild.default_role: discord.PermissionOverwrite(read_messages=False),
+            discord.utils.get(guild.roles, name="1BIT"): discord.PermissionOverwrite(
+                read_messages=True, send_messages=False
+            ),
         }
         await guild.create_text_channel(
-            '1bit-terminy', overwrites=overwrites,
+            "1bit-terminy",
+            overwrites=overwrites,
             category=terminy_channels[0].category,
-            position=terminy_channels[0].position - 1
+            position=terminy_channels[0].position - 1,
         )
 
         # give 4bit perms to the new 3bit terminy
         await terminy_channels[1].set_permissions(
             discord.utils.get(guild.roles, name="4BIT+"),
-            read_messages=True, send_messages=False
+            read_messages=True,
+            send_messages=False,
         )
 
         # Give people the correct mandatory classes after increment
         semester_names = [str(x) + ". Semestr" for x in range(1, 6)]
-        semester = [discord.utils.get(guild.categories, name=semester_name)
-                    for semester_name in semester_names]
-        await semester[0].set_permissions(discord.utils.get(guild.roles,
-                                                            name="1BIT"),
-                                          read_messages=True,
-                                          send_messages=True)
-        await semester[0].set_permissions(discord.utils.get(guild.roles,
-                                                            name="2BIT"),
-                                          overwrite=None)
-        await semester[1].set_permissions(discord.utils.get(guild.roles,
-                                                            name="1BIT"),
-                                          read_messages=True,
-                                          send_messages=True)
-        await semester[1].set_permissions(discord.utils.get(guild.roles,
-                                                            name="2BIT"),
-                                          overwrite=None)
-        await semester[2].set_permissions(discord.utils.get(guild.roles,
-                                                            name="2BIT"),
-                                          read_messages=True,
-                                          send_messages=True)
-        await semester[2].set_permissions(discord.utils.get(guild.roles,
-                                                            name="3BIT"),
-                                          overwrite=None)
-        await semester[3].set_permissions(discord.utils.get(guild.roles,
-                                                            name="2BIT"),
-                                          read_messages=True,
-                                          send_messages=True)
-        await semester[3].set_permissions(discord.utils.get(guild.roles,
-                                                            name="3BIT"),
-                                          overwrite=None)
-        await semester[4].set_permissions(discord.utils.get(guild.roles,
-                                                            name="3BIT"),
-                                          read_messages=True,
-                                          send_messages=True)
+        semester = [
+            discord.utils.get(guild.categories, name=semester_name)
+            for semester_name in semester_names
+        ]
+        await semester[0].set_permissions(
+            discord.utils.get(guild.roles, name="1BIT"),
+            read_messages=True,
+            send_messages=True,
+        )
+        await semester[0].set_permissions(
+            discord.utils.get(guild.roles, name="2BIT"), overwrite=None
+        )
+        await semester[1].set_permissions(
+            discord.utils.get(guild.roles, name="1BIT"),
+            read_messages=True,
+            send_messages=True,
+        )
+        await semester[1].set_permissions(
+            discord.utils.get(guild.roles, name="2BIT"), overwrite=None
+        )
+        await semester[2].set_permissions(
+            discord.utils.get(guild.roles, name="2BIT"),
+            read_messages=True,
+            send_messages=True,
+        )
+        await semester[2].set_permissions(
+            discord.utils.get(guild.roles, name="3BIT"), overwrite=None
+        )
+        await semester[3].set_permissions(
+            discord.utils.get(guild.roles, name="2BIT"),
+            read_messages=True,
+            send_messages=True,
+        )
+        await semester[3].set_permissions(
+            discord.utils.get(guild.roles, name="3BIT"), overwrite=None
+        )
+        await semester[4].set_permissions(
+            discord.utils.get(guild.roles, name="3BIT"),
+            read_messages=True,
+            send_messages=True,
+        )
 
-        await ctx.send('Holy fuck, všechno se povedlo, '
-                       'tak zase za rok <:Cauec:602052606210211850>')
+        await ctx.send(
+            "Holy fuck, všechno se povedlo, "
+            "tak zase za rok <:Cauec:602052606210211850>"
+        )
 
     # TODO: the opposite of increment_roles (for rollback and testing)
     # and role_check to check if peoples roles match the database
@@ -342,14 +411,15 @@ class FitWide(commands.Cog):
                 continue
 
             if convert_0xit and year.endswith("1r"):
-                person = session.query(Valid_person).\
-                    filter(Valid_person.login == login).\
-                    one_or_none()
+                person = (
+                    session.query(Valid_person)
+                    .filter(Valid_person.login == login)
+                    .one_or_none()
+                )
                 if person is not None and person.year.endswith("0r"):
                     year = year.replace("1r", "0r")
 
-            found_people.append(Valid_person(login=login, year=year,
-                                             name=name))
+            found_people.append(Valid_person(login=login, year=year, name=name))
             found_logins.append(login)
 
         for login in found_logins:
@@ -402,39 +472,53 @@ class FitWide(commands.Cog):
     @commands.check(is_in_modroom)
     @commands.command()
     async def get_users_login(self, ctx, member: discord.Member):
-        result = session.query(Permit).\
-            filter(Permit.discord_ID == str(member.id)).one_or_none()
+        result = (
+            session.query(Permit)
+            .filter(Permit.discord_ID == str(member.id))
+            .one_or_none()
+        )
 
         if result is None:
             await ctx.send("Uživatel není v databázi.")
             return
 
-        person = session.query(Valid_person).\
-            filter(Valid_person.login == result.login).one_or_none()
+        person = (
+            session.query(Valid_person)
+            .filter(Valid_person.login == result.login)
+            .one_or_none()
+        )
 
         if person is None:
             await ctx.send(result.login)
             return
 
-        await ctx.send(("Login: `{p.login}`\nJméno: `{p.name}`\n"
-                        "Ročník: `{p.year}`").format(p=person))
+        await ctx.send(
+            ("Login: `{p.login}`\nJméno: `{p.name}`\n" "Ročník: `{p.year}`").format(
+                p=person
+            )
+        )
 
     @commands.cooldown(rate=2, per=20.0, type=commands.BucketType.user)
     @commands.check(is_in_modroom)
     @commands.command()
     async def get_logins_user(self, ctx, login):
-        result = session.query(Permit).\
-            filter(Permit.login == login).one_or_none()
+        result = session.query(Permit).filter(Permit.login == login).one_or_none()
 
         if result is None:
-            person = session.query(Valid_person).\
-                filter(Valid_person.login == login).one_or_none()
+            person = (
+                session.query(Valid_person)
+                .filter(Valid_person.login == login)
+                .one_or_none()
+            )
             if person is None:
                 await ctx.send("Uživatel není v databázi možných loginů.")
             else:
-                await ctx.send(("Login: `{p.login}`\nJméno: `{p.name}`\n"
-                                "Ročník: `{p.year}`\nNení na serveru."
-                                ).format(p=person))
+                await ctx.send(
+                    (
+                        "Login: `{p.login}`\nJméno: `{p.name}`\n"
+                        "Ročník: `{p.year}`\nNení na serveru."
+                    ).format(p=person)
+                )
         else:
             await ctx.send(utils.generate_mention(result.discord_ID))
 
@@ -443,13 +527,15 @@ class FitWide(commands.Cog):
     @commands.command()
     async def reset_login(self, ctx, login):
 
-        result = session.query(Valid_person).\
-            filter(Valid_person.login == login).one_or_none()
+        result = (
+            session.query(Valid_person)
+            .filter(Valid_person.login == login)
+            .one_or_none()
+        )
         if result is None:
             await ctx.send("To není validní login.")
         else:
-            session.query(Permit).\
-                filter(Permit.login == login).delete()
+            session.query(Permit).filter(Permit.login == login).delete()
             result.status = 1
             session.commit()
             await ctx.send("Hotovo.")
@@ -459,8 +545,11 @@ class FitWide(commands.Cog):
     @commands.command()
     async def connect_login_to_user(self, ctx, login, member: discord.Member):
 
-        result = session.query(Valid_person).\
-            filter(Valid_person.login == login).one_or_none()
+        result = (
+            session.query(Valid_person)
+            .filter(Valid_person.login == login)
+            .one_or_none()
+        )
         if result is None:
             await ctx.send("To není validní login.")
         else:
@@ -478,8 +567,9 @@ class FitWide(commands.Cog):
     @get_db.error
     async def fitwide_checks_error(self, ctx, error):
         if isinstance(error, commands.CheckFailure):
-            await ctx.send('Nothing to see here comrade. ' +
-                           '<:KKomrade:484470873001164817>')
+            await ctx.send(
+                "Nothing to see here comrade. " + "<:KKomrade:484470873001164817>"
+            )
 
 
 def setup(bot):

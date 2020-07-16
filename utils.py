@@ -8,7 +8,7 @@ from config.app_config import Config
 
 
 def generate_mention(user_id):
-    return '<@' + str(user_id) + '>'
+    return "<@" + str(user_id) + ">"
 
 
 def git_hash():
@@ -49,13 +49,13 @@ def fill_message(message_name, *args, **kwargs):
     """
 
     # Convert username/admin to a mention
-    if 'user' in kwargs:
-        kwargs['user'] = generate_mention(kwargs['user'])
+    if "user" in kwargs:
+        kwargs["user"] = generate_mention(kwargs["user"])
 
-    if 'admin' in kwargs:
-        kwargs['admin'] = generate_mention(kwargs['admin'])
+    if "admin" in kwargs:
+        kwargs["admin"] = generate_mention(kwargs["admin"])
 
-    to_escape = ['role', 'not_role', 'line']
+    to_escape = ["role", "not_role", "line"]
 
     for arg in to_escape:
         if arg in kwargs:
@@ -87,7 +87,7 @@ def is_bot_owner(ctx: commands.Context):
 
 
 def cut_string(string: str, part_len: int):
-    return list(string[0+i:part_len+i] for i in range(0, len(string), part_len))
+    return list(string[0 + i : part_len + i] for i in range(0, len(string), part_len))
 
 
 async def reaction_get_ctx(bot, payload):
@@ -117,4 +117,6 @@ async def reaction_get_ctx(bot, payload):
     else:
         emoji = payload.emoji.name
 
-    return dict(channel=channel, guild=guild, member=member, message=message, emoji=emoji)
+    return dict(
+        channel=channel, guild=guild, member=member, message=message, emoji=emoji
+    )

@@ -13,7 +13,6 @@ review_repo = review_repo.ReviewRepository()
 
 
 class Review(commands.Cog):
-
     def __init__(self, bot):
         self.bot = bot
         self.rev = Review_helper(bot)
@@ -22,7 +21,11 @@ class Review(commands.Cog):
         guild = self.bot.get_guild(config.guild_id)
         member = guild.get_member(ctx.message.author.id)
         if member is None:
-            await ctx.send(utils.fill_message("review_not_on_server", user=ctx.message.author.mention))
+            await ctx.send(
+                utils.fill_message(
+                    "review_not_on_server", user=ctx.message.author.mention
+                )
+            )
             return False
         roles = member.roles
         verify = False
@@ -30,10 +33,14 @@ class Review(commands.Cog):
             if config.verification_role_id == role.id:
                 verify = True
             if role.id in config.reviews_forbidden_roles:
-                await ctx.send(utils.fill_message("review_add_denied", user=ctx.message.author.id))
+                await ctx.send(
+                    utils.fill_message("review_add_denied", user=ctx.message.author.id)
+                )
                 return False
         if not verify:
-            await ctx.send(utils.fill_message("review_add_denied", user=ctx.message.author.id))
+            await ctx.send(
+                utils.fill_message("review_add_denied", user=ctx.message.author.id)
+            )
             return
         return True
 
@@ -52,7 +59,7 @@ class Review(commands.Cog):
                 await ctx.send(messages.review_wrong_subject)
                 return
             msg = await ctx.send(embed=embed)
-            footer = msg.embeds[0].footer.text.split('|')[0]
+            footer = msg.embeds[0].footer.text.split("|")[0]
             if msg.embeds[0].description[-1].isnumeric():
                 if footer != "Review: 1/1 ":
                     await msg.add_reaction("⏪")
@@ -80,7 +87,7 @@ class Review(commands.Cog):
         if not ctx.guild:  # DM
             anonym = True
         if args:
-            args = ' '.join(args)
+            args = " ".join(args)
         args_len = len(args)
         if args_len == 0:
             args = None
@@ -98,7 +105,7 @@ class Review(commands.Cog):
                 await ctx.send(messages.review_remove_format_admin)
             else:
                 await ctx.send(messages.review_remove_format)
-        elif subject == 'id':
+        elif subject == "id":
             if ctx.author.id == config.admin_id:
                 if id is None:
                     await ctx.send(messages.review_remove_id_format)
@@ -106,7 +113,9 @@ class Review(commands.Cog):
                     review_repo.remove(id)
                     await ctx.send(messages.review_remove_success)
             else:
-                await ctx.send(utils.fill_message("insufficient_rights", user=ctx.author.id))
+                await ctx.send(
+                    utils.fill_message("insufficient_rights", user=ctx.author.id)
+                )
         else:
             subject = subject.lower()
             if self.rev.remove(str(ctx.message.author.id), subject):
@@ -122,19 +131,19 @@ class Review(commands.Cog):
             await ctx.send(messages.subject_format)
             return
 
-    @subject.command(name='add')
+    @subject.command(name="add")
     async def subject_add(self, ctx, *subjects):
         for subject in subjects:
             subject = subject.lower()
             self.rev.add_subject(subject)
-        await ctx.send(f'Zkratky `{subjects}` byli přidány.')
+        await ctx.send(f"Zkratky `{subjects}` byli přidány.")
 
-    @subject.command(name='remove')
+    @subject.command(name="remove")
     async def subject_remove(self, ctx, *subjects):
         for subject in subjects:
             subject = subject.lower()
             self.rev.remove_subject(subject)
-        await ctx.send(f'Zkratky `{subjects}` byli odebrány.')
+        await ctx.send(f"Zkratky `{subjects}` byli odebrány.")
 
     @reviews.error
     @subject.error
@@ -142,7 +151,9 @@ class Review(commands.Cog):
         if isinstance(error, commands.BadArgument):
             await ctx.send(messages.review_add_format)
         if isinstance(error, commands.CheckFailure):
-            await ctx.send(utils.fill_message("insufficient_rights", user=ctx.author.id))
+            await ctx.send(
+                utils.fill_message("insufficient_rights", user=ctx.author.id)
+            )
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
@@ -150,80 +161,93 @@ class Review(commands.Cog):
         if ctx is None:
             return
 
-        if ctx['message'].embeds and ctx['message'].embeds[0].title is not discord.Embed.Empty and\
-                re.match(".* reviews", ctx['message'].embeds[0].title):
-            subject = ctx['message'].embeds[0].title.split(' ', 1)[0]
-            footer = ctx['message'].embeds[0].footer.text.split('|')[0]
-            pos = footer.find('/')
+        if (
+            ctx["message"].embeds
+            and ctx["message"].embeds[0].title is not discord.Embed.Empty
+            and re.match(".* reviews", ctx["message"].embeds[0].title)
+        ):
+            subject = ctx["message"].embeds[0].title.split(" ", 1)[0]
+            footer = ctx["message"].embeds[0].footer.text.split("|")[0]
+            pos = footer.find("/")
             try:
                 page = int(footer[8:pos])
-                max_page = int(footer[(pos + 1):])
+                max_page = int(footer[(pos + 1) :])
             except ValueError:
-                await ctx['message'].edit(content=messages.reviews_page_e, embed=None)
+                await ctx["message"].edit(content=messages.reviews_page_e, embed=None)
                 return
-            tier_average = ctx['message'].embeds[0].description[-1]
-            if ctx['emoji'] in ["◀", "▶", "⏪"]:
-                next_page = utils.pagination_next(ctx['emoji'], page, max_page)
+            tier_average = ctx["message"].embeds[0].description[-1]
+            if ctx["emoji"] in ["◀", "▶", "⏪"]:
+                next_page = utils.pagination_next(ctx["emoji"], page, max_page)
                 if next_page:
                     review = review_repo.get_subject_reviews(subject)
                     if review.count() >= next_page:
                         review = review.all()[next_page - 1].Review
                         next_page = str(next_page) + "/" + str(max_page)
                         embed = self.rev.make_embed(
-                            review, subject, tier_average, next_page)
+                            review, subject, tier_average, next_page
+                        )
                         if embed.fields[3].name == "Text page":
-                            await ctx['message'].add_reaction("🔼")
-                            await ctx['message'].add_reaction("🔽")
+                            await ctx["message"].add_reaction("🔼")
+                            await ctx["message"].add_reaction("🔽")
                         else:
-                            for emote in ctx['message'].reactions:
-                                if emote.ctx['emoji'] == "🔼":
-                                    await ctx['message'].remove_reaction("🔼", self.bot.user)
-                                    await ctx['message'].remove_reaction("🔽", self.bot.user)
+                            for emote in ctx["message"].reactions:
+                                if emote.ctx["emoji"] == "🔼":
+                                    await ctx["message"].remove_reaction(
+                                        "🔼", self.bot.user
+                                    )
+                                    await ctx["message"].remove_reaction(
+                                        "🔽", self.bot.user
+                                    )
                                     break
-                        await ctx['message'].edit(embed=embed)
-            elif ctx['emoji'] in ["👍", "👎", "🛑"]:
+                        await ctx["message"].edit(embed=embed)
+            elif ctx["emoji"] in ["👍", "👎", "🛑"]:
                 review = review_repo.get_subject_reviews(subject)[page - 1].Review
-                if str(ctx['member'].id) != review.member_ID:
+                if str(ctx["member"].id) != review.member_ID:
                     review_id = review.id
-                    if ctx['emoji'] == "👍":
-                        self.rev.add_vote(review_id, True, str(ctx['member'].id))
-                    elif ctx['emoji'] == "👎":
-                        self.rev.add_vote(review_id, False, str(ctx['member'].id))
-                    elif ctx['emoji'] == "🛑":
-                        review_repo.remove_vote(review_id, str(ctx['member'].id))
+                    if ctx["emoji"] == "👍":
+                        self.rev.add_vote(review_id, True, str(ctx["member"].id))
+                    elif ctx["emoji"] == "👎":
+                        self.rev.add_vote(review_id, False, str(ctx["member"].id))
+                    elif ctx["emoji"] == "🛑":
+                        review_repo.remove_vote(review_id, str(ctx["member"].id))
                     page = str(page) + "/" + str(max_page)
                     embed = self.rev.make_embed(review, subject, tier_average, page)
-                    await ctx['message'].edit(embed=embed)
-            elif ctx['emoji'] in ["🔼", "🔽"]:
-                if ctx['message'].embeds[0].fields[3].name == "Text page":
+                    await ctx["message"].edit(embed=embed)
+            elif ctx["emoji"] in ["🔼", "🔽"]:
+                if ctx["message"].embeds[0].fields[3].name == "Text page":
                     review = review_repo.get_subject_reviews(subject)
                     if review:
                         review = review[page - 1].Review
-                        text_page = ctx['message'].embeds[0].fields[3].value
-                        pos = ctx['message'].embeds[0].fields[3].value.find('/')
-                        max_text_page = int(text_page[(pos + 1):])
+                        text_page = ctx["message"].embeds[0].fields[3].value
+                        pos = ctx["message"].embeds[0].fields[3].value.find("/")
+                        max_text_page = int(text_page[(pos + 1) :])
                         text_page = int(text_page[:pos])
-                        next_text_page = utils.pagination_next(ctx['emoji'], text_page, max_text_page)
+                        next_text_page = utils.pagination_next(
+                            ctx["emoji"], text_page, max_text_page
+                        )
                         if next_text_page:
                             page = str(page) + "/" + str(max_page)
-                            embed = self.rev.make_embed(review, subject, tier_average, page)
-                            embed = self.rev.change_text_page(review, embed, next_text_page, max_text_page)
-                            await ctx['message'].edit(embed=embed)
-            if ctx['message'].guild:  # cannot remove reaction in DM
-                await ctx['message'].remove_reaction(ctx['emoji'], ctx['member'])
+                            embed = self.rev.make_embed(
+                                review, subject, tier_average, page
+                            )
+                            embed = self.rev.change_text_page(
+                                review, embed, next_text_page, max_text_page
+                            )
+                            await ctx["message"].edit(embed=embed)
+            if ctx["message"].guild:  # cannot remove reaction in DM
+                await ctx["message"].remove_reaction(ctx["emoji"], ctx["member"])
 
 
-class Review_helper():
-
+class Review_helper:
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
     def make_embed(self, review, subject, tier_average, page):
         embed = discord.Embed(
             title=subject.lower() + " reviews",
-            description="Average tier: " + tier_average
+            description="Average tier: " + tier_average,
         )
-        colour = 0x6d6a69
+        colour = 0x6D6A69
         id = 0
         if review is not None:
             guild = self.bot.get_guild(config.guild_id)
@@ -240,7 +264,9 @@ class Review_helper():
                 if text_len > 1024:
                     pages = text_len // 1024 + (text_len % 1024 > 0)
                     text = review.text_review[:1024]
-                    embed.add_field(name="Text page", value="1/" + str(pages), inline=False)
+                    embed.add_field(
+                        name="Text page", value="1/" + str(pages), inline=False
+                    )
                 embed.add_field(name="Text", value=text, inline=False)
             likes = review_repo.get_votes_count(review.id, True)
             embed.add_field(name="Likes", value="👍" + str(likes))
@@ -248,24 +274,27 @@ class Review_helper():
             embed.add_field(name="Dislikes", value="👎" + str(dislikes))
             diff = likes - dislikes
             if diff > 0:
-                colour = 0x34cb0b
+                colour = 0x34CB0B
             elif diff < 0:
-                colour = 0xcb410b
+                colour = 0xCB410B
             id = review.id
-            embed.add_field(name="Help", value=messages.reviews_reaction_help, inline=False)
-        embed.set_footer(text="Review: " + page + ' | ID: ' + str(id))
+            embed.add_field(
+                name="Help", value=messages.reviews_reaction_help, inline=False
+            )
+        embed.set_footer(text="Review: " + page + " | ID: " + str(id))
         embed.timestamp = datetime.datetime.now(tz=datetime.timezone.utc)
         embed.colour = colour
         return embed
 
     def change_text_page(self, review, embed, new_page, max_page):
-        text_index = 1024*(new_page-1)
-        if len(review.text_review) < 1024*new_page:
+        text_index = 1024 * (new_page - 1)
+        if len(review.text_review) < 1024 * new_page:
             text = review.text_review[text_index:]
         else:
-            text = review.text_review[text_index:1024*new_page]
+            text = review.text_review[text_index : 1024 * new_page]
         embed.set_field_at(
-            3, name="Text page", value=str(new_page) + "/" + str(max_page))
+            3, name="Text page", value=str(new_page) + "/" + str(max_page)
+        )
         embed.set_field_at(4, name="Text", value=text, inline=False)
         return embed
 
@@ -294,7 +323,7 @@ class Review_helper():
             review = None
             page = "1/1"
         else:
-            tier_average = str(round(tier_sum/tier_cnt))
+            tier_average = str(round(tier_sum / tier_cnt))
             review = reviews[0].Review
             page = "1/" + str(tier_cnt)
         return self.make_embed(review, subject, tier_average, page)

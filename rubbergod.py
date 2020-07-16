@@ -12,13 +12,20 @@ from features import presence
 import repository.db_migrations as migrations
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--load_dump', type=str,
-                    help='Imports SQL dump from SQL file to database.',
-                    metavar='filepath.sql')
-parser.add_argument('--load_subjects', action='store_true',
-                    help='Fills DB with subjects.')
-parser.add_argument('--init_db', action='store_true',
-                    help='Creates missing DB tables without start bot.')
+parser.add_argument(
+    "--load_dump",
+    type=str,
+    help="Imports SQL dump from SQL file to database.",
+    metavar="filepath.sql",
+)
+parser.add_argument(
+    "--load_subjects", action="store_true", help="Fills DB with subjects."
+)
+parser.add_argument(
+    "--init_db",
+    action="store_true",
+    help="Creates missing DB tables without start bot.",
+)
 args = parser.parse_args()
 
 if args.load_dump is not None:
@@ -29,7 +36,7 @@ elif args.load_subjects:
     exit(0)
 elif args.init_db:
     migrations.init_db()
-    print('Init complete')
+    print("Init complete")
     exit(0)
 
 config = Config
@@ -38,7 +45,8 @@ is_initialized = False
 bot = commands.Bot(
     command_prefix=commands.when_mentioned_or(*config.command_prefix),
     help_command=None,
-    case_insensitive=True)
+    case_insensitive=True,
+)
 
 presence = presence.Presence(bot)
 
@@ -74,11 +82,11 @@ async def on_error(event, *args, **kwargs):
 # Create missing tables at start
 migrations.init_db()
 
-bot.load_extension('cogs.system')
-print('System cog loaded')
+bot.load_extension("cogs.system")
+print("System cog loaded")
 
 for extension in config.extensions:
-    bot.load_extension(f'cogs.{extension}')
-    print(f'{extension} loaded')
+    bot.load_extension(f"cogs.{extension}")
+    print(f"{extension} loaded")
 
 bot.run(config.key)
