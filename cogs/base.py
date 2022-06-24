@@ -9,7 +9,6 @@ from config.messages import Messages
 
 boottime = datetime.datetime.now().replace(microsecond=0)
 
-
 class Base(commands.Cog):
     def __init__(self, bot):
         self.bot = bot

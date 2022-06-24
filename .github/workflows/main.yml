@@ -1,29 +1,19 @@
-name: Lint
+name: flake8 Lint
 
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    types: [ opened, reopened, synchronize ]
+on: [push, pull_request]
 
 jobs:
-  lint:
-    name: Python Lint
+  flake8-lint:
     runs-on: ubuntu-latest
+    name: Lint
     steps:
-      - name: Setup Python
+      - name: Check out source repository
+        uses: actions/checkout@v2
+      - name: Set up Python environment
         uses: actions/setup-python@v2
         with:
-          python-version: 3.8
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Install flake8
-        run: pip install flake8
-      - name: Run flake8
-        uses: julianwachholz/flake8-action@v2
+          python-version: "3.8"
+      - name: flake8 Lint
+        uses: reviewdog/action-flake8@v3
         with:
-          checkName: "Python Lint"
-          path: .
-          config: .flake8
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
