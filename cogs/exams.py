@@ -22,7 +22,6 @@ CLEANR = re.compile("<.*?>|&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-f]{1,6});")
 DATE_OFFSET = 14
 TIME_OFFSET = 14
 
-
 class Exams(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
