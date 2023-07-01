@@ -2,7 +2,7 @@ from sqlalchemy import (Boolean, Column, Date, ForeignKey, Integer,
                         PrimaryKeyConstraint, String)
 from sqlalchemy.orm import relationship
 
-from repository.database import database
+from database import database
 
 
 class Review(database.base):

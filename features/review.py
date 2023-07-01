@@ -4,12 +4,12 @@ from typing import Union
 import disnake
 import requests
 from bs4 import BeautifulSoup
+from repository import review_repo
 
 import utils
 from config.app_config import config
+from database.review import Review, Subject_details
 from features import sports
-from repository import review_repo
-from repository.database.review import Review, Subject_details
 
 
 class ReviewManager:

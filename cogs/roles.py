@@ -7,16 +7,16 @@ from typing import List, Tuple
 
 import disnake
 from disnake.ext import commands
+from repository import review_repo
 
 import utils
 from cogs.base import Base
 from config.app_config import config
 # TODO: use messages for prints
 from config.messages import Messages
+from database.role_group import RoleGroupDB
 from features.reaction_context import ReactionContext
 from permissions import permission_check
-from repository import review_repo
-from repository.database.role_group import RoleGroupDB
 
 
 class Roles(Base, commands.Cog):

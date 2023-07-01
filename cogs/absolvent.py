@@ -14,7 +14,7 @@ import utils
 from cogs.base import Base
 from config.app_config import config
 from config.messages import Messages
-from repository.database.verification import ValidPersonDB
+from database.verification import ValidPersonDB
 
 
 class Absolvent(Base, commands.Cog):

@@ -15,7 +15,7 @@ Create a new module with DB structure class ( example from `MemeRepost`):
 ```python
 from sqlalchemy import Column, String
 
-from repository.database import database
+from database import database
 
 
 class MemeRepost(database.base):
@@ -30,7 +30,7 @@ class MemeRepost(database.base):
 Add the following into `repository/db_migrations.py`:
 
 ```python
-from repository.database.meme_repost import MemeRepost  # noqa: F401
+from database.meme_repost import MemeRepost  # noqa: F401
 ```
 
 That way, the module gets imported on startup and creates the table automatically.
