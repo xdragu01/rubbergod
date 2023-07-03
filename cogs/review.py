@@ -7,6 +7,7 @@ import datetime
 
 import disnake
 from disnake.ext import commands
+from repository import review_repo
 
 import utils
 from buttons.embed import EmbedView
@@ -17,7 +18,6 @@ from config.app_config import config
 from config.messages import Messages
 from features.review import ReviewManager
 from permissions import permission_check
-from repository import review_repo
 
 subjects = []
 programmes = []
