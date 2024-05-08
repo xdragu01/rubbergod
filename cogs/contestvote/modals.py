@@ -1,5 +1,8 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 import disnake
-from disnake.ext import commands
 
 from buttons.general import TrashView
 from database.contestvote import ContestVoteDB
@@ -7,9 +10,12 @@ from database.contestvote import ContestVoteDB
 from . import features
 from .messages_cz import MessagesCZ
 
+if TYPE_CHECKING:
+    from rubbergod import Rubbergod
+
 
 class DenyContributionModal(disnake.ui.Modal):
-    def __init__(self, bot: commands.Bot, inter: disnake.MessageInteraction) -> None:
+    def __init__(self, bot: Rubbergod, inter: disnake.MessageInteraction) -> None:
         self.bot = bot
         self.inter = inter
         self.contribution_id = features.get_contribution_id(inter.message.content)

@@ -1,4 +1,7 @@
+from __future__ import annotations
+
 from functools import cached_property
+from typing import TYPE_CHECKING
 
 import disnake
 from disnake.ext import commands
@@ -11,11 +14,14 @@ from database.report import ReportDB, UserDB
 from . import features as report_features
 from .messages_cz import MessagesCZ
 
+if TYPE_CHECKING:
+    from rubbergod import Rubbergod
+
 
 class Modal(disnake.ui.Modal):
     def __init__(
         self,
-        bot: commands.Bot,
+        bot: Rubbergod,
         dm_message: disnake.Message,
         title="General report",
         message: disnake.Message = None,

@@ -2,9 +2,12 @@
 Cog for interpreting latex commands as images.
 """
 
+from __future__ import annotations
+
 import asyncio
 import io
 import urllib
+from typing import TYPE_CHECKING
 
 import aiohttp
 import disnake
@@ -15,11 +18,14 @@ from config import cooldowns
 
 from .messages_cz import MessagesCZ
 
+if TYPE_CHECKING:
+    from rubbergod import Rubbergod
+
 PNG_HEADER = b"\x89PNG\r\n\x1a\n"
 
 
 class Latex(Base, commands.Cog):
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: Rubbergod):
         super().__init__()
         self.bot = bot
 

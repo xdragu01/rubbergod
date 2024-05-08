@@ -3,7 +3,10 @@ Cog containing help command. Only shows commands that user has access to
 and are context commands.
 """
 
+from __future__ import annotations
+
 import copy
+from typing import TYPE_CHECKING
 
 import disnake
 from disnake.ext import commands
@@ -15,11 +18,14 @@ from config import cooldowns
 
 from .messages_cz import MessagesCZ
 
+if TYPE_CHECKING:
+    from rubbergod import Rubbergod
+
 
 class Help(Base, commands.Cog):
     """Help command"""
 
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: Rubbergod):
         super().__init__()
         self.bot = bot
 

@@ -1,7 +1,9 @@
+from __future__ import annotations
+
 import logging
+from typing import TYPE_CHECKING
 
 import disnake
-from disnake.ext import commands
 
 from buttons.base import BaseView
 from permissions import permission_check
@@ -9,11 +11,14 @@ from permissions import permission_check
 from . import features
 from .messages_cz import MessagesCZ
 
+if TYPE_CHECKING:
+    from rubbergod import Rubbergod
+
 rubbergod_logger = logging.getLogger("rubbergod")
 
 
 class View(BaseView):
-    def __init__(self, bot: commands.Bot, cogs: list[list[tuple[str, str]]]):
+    def __init__(self, bot: Rubbergod, cogs: list[list[tuple[str, str]]]):
         super().__init__()
         self.bot = bot
         self.count = len(cogs)
@@ -52,7 +57,7 @@ class View(BaseView):
 
 
 class Dropdown(disnake.ui.Select):
-    def __init__(self, bot: commands.Bot, view: View, cogs: list[tuple[str, str]]):
+    def __init__(self, bot: Rubbergod, view: View, cogs: list[tuple[str, str]]):
         self.bot = bot
         self._view = view
         self.cogs: list[tuple[str, str]] = cogs

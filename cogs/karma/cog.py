@@ -2,7 +2,10 @@
 Cog implementing karma system. Users can give each other positive/negative karma points with reactions.
 """
 
+from __future__ import annotations
+
 import math
+from typing import TYPE_CHECKING
 
 import disnake
 from disnake.ext import commands, tasks
@@ -20,9 +23,12 @@ from permissions import permission_check, room_check
 from . import features
 from .messages_cz import MessagesCZ
 
+if TYPE_CHECKING:
+    from rubbergod import Rubbergod
+
 
 class Karma(Base, commands.Cog):
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: Rubbergod):
         super().__init__()
         self.bot = bot
         self.karma_helper = features.Karma(bot)

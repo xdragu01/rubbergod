@@ -2,6 +2,10 @@
 Cog implementing dynamic icon system. Users can assign themselves icons from a list of roles.
 """
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 import disnake
 from disnake.ext import commands
 
@@ -13,9 +17,12 @@ from . import features
 from .messages_cz import MessagesCZ
 from .views import IconSelect
 
+if TYPE_CHECKING:
+    from rubbergod import Rubbergod
+
 
 class Icons(Base, commands.Cog):
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: Rubbergod):
         super().__init__()
         self.bot = bot
 

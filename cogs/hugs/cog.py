@@ -2,6 +2,10 @@
 Cog implementing hug commands. Send hug to user and see leaderboard.
 """
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 import disnake
 from disnake.ext import commands
 
@@ -15,6 +19,9 @@ from permissions import room_check
 from utils import make_pts_column_row_formatter
 
 from .messages_cz import MessagesCZ
+
+if TYPE_CHECKING:
+    from rubbergod import Rubbergod
 
 
 def _tophugs_formatter(entry: HugsTableDB, **kwargs):
@@ -31,7 +38,7 @@ class Hugs(Base, commands.Cog):
 
     emoji_count = len(Base.config.hug_emojis)
 
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: Rubbergod):
         super().__init__()
         self.bot = bot
         self.hugs_db = HugsTableDB()

@@ -2,6 +2,10 @@
 Cog for sending and managing messages sent by bot.
 """
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 import disnake
 from disnake.ext import commands
 
@@ -12,9 +16,12 @@ from permissions import permission_check
 from .messages_cz import MessagesCZ
 from .modals import Modal
 
+if TYPE_CHECKING:
+    from rubbergod import Rubbergod
+
 
 class Message(Base, commands.Cog):
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: Rubbergod):
         super().__init__()
         self.bot = bot
 

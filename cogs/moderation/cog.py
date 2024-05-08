@@ -3,6 +3,10 @@ Cog implementing functions for server moderation and help functions for mods.
 Implemented logging for tagging @mods.
 """
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 import disnake
 from disnake.ext import commands
 
@@ -13,6 +17,9 @@ from . import features
 from .features import MODERATION_FALSE, MODERATION_TRUE, SLOWMODE_CHANNEL_TYPES
 from .messages_cz import MessagesCZ
 from .views import View
+
+if TYPE_CHECKING:
+    from rubbergod import Rubbergod
 
 # Reflects UI slider values
 delay_timestamps = {
@@ -37,7 +44,7 @@ async def slowmode_delay_times(inter: disnake.ApplicationCommandInteraction, str
 
 
 class Moderation(Base, commands.Cog):
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: Rubbergod):
         super().__init__()
         self.bot = bot
 

@@ -2,10 +2,13 @@
 Core cog for bot. Can't be unloaded. Contains commands for cog management.
 """
 
+from __future__ import annotations
+
 import platform
 import subprocess
 from datetime import datetime
 from io import BytesIO
+from typing import TYPE_CHECKING
 
 import disnake
 from disnake.ext import commands
@@ -22,11 +25,14 @@ from . import features
 from .messages_cz import MessagesCZ
 from .views import View
 
+if TYPE_CHECKING:
+    from rubbergod import Rubbergod
+
 boottime = datetime.now().replace(microsecond=0)
 
 
 class System(Base, commands.Cog):
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: Rubbergod):
         super().__init__()
         self.bot = bot
         self.error_log = ErrorLogger(bot)

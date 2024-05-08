@@ -1,7 +1,8 @@
-from typing import Dict, Union
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Dict, Union
 
 import disnake
-from disnake.ext.commands import Bot
 
 import utils
 from config.app_config import config
@@ -12,9 +13,12 @@ from features.verify_helper import VerifyHelper
 from .messages_cz import MessagesCZ
 from .views_dynamic_verify import DynamicVerifyRequestView
 
+if TYPE_CHECKING:
+    from rubbergod import Rubbergod
+
 
 class DynamicVerifyManager(BaseFeature):
-    def __init__(self, bot: Bot) -> None:
+    def __init__(self, bot: Rubbergod) -> None:
         super().__init__(bot)
         self.verify_db = DynamicVerifyDB()
         self.helper = VerifyHelper(bot)

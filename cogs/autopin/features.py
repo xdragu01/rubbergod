@@ -1,19 +1,23 @@
+from __future__ import annotations
+
 import datetime
 import io
 import json
-from typing import TypeAlias
+from typing import TYPE_CHECKING, TypeAlias
 
 import disnake
-from disnake.ext import commands
 
 import utils
 from config.app_config import config
+
+if TYPE_CHECKING:
+    from rubbergod import Rubbergod
 
 PIN_CHANNEL_TYPE: TypeAlias = disnake.TextChannel | disnake.Thread
 
 
 class AutopinFeatures:
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: Rubbergod):
         self.bot = bot
 
     async def log(self, message: disnake.Message, users: list[disnake.User]):

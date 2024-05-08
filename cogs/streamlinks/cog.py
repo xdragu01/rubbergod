@@ -2,8 +2,11 @@
 Cog implementing streamlinks system. List streams for a subject.
 """
 
+from __future__ import annotations
+
 import re
 from datetime import datetime, timezone
+from typing import TYPE_CHECKING
 
 import disnake
 import requests
@@ -24,6 +27,9 @@ from permissions import permission_check, room_check
 
 from .messages_cz import MessagesCZ
 
+if TYPE_CHECKING:
+    from rubbergod import Rubbergod
+
 # Pattern: "AnyText | [Subject] Page: CurrentPage / {TotalPages}"
 pagination_regex = re.compile(r"^\[([^\]]*)\]\s*Page:\s*(\d*)\s*\/\s*(\d*)")
 
@@ -40,7 +46,7 @@ async def autocomp_subjects_with_stream(inter: disnake.ApplicationCommandInterac
 
 
 class StreamLinks(Base, commands.Cog):
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: Rubbergod):
         global subjects, subjects_with_stream
         super().__init__()
         self.bot = bot

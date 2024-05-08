@@ -2,7 +2,10 @@
 Cog implementing channels and roles management. Copying/creating channels with permissions.
 """
 
+from __future__ import annotations
+
 import io
+from typing import TYPE_CHECKING
 
 import disnake
 from disnake.ext import commands
@@ -14,9 +17,12 @@ from permissions import permission_check
 
 from .messages_cz import MessagesCZ
 
+if TYPE_CHECKING:
+    from rubbergod import Rubbergod
+
 
 class Roles(Base, commands.Cog):
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: Rubbergod):
         super().__init__()
         self.bot = bot
 

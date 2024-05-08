@@ -2,7 +2,10 @@
 Cog for creating gifs.
 """
 
+from __future__ import annotations
+
 from io import BytesIO
+from typing import TYPE_CHECKING
 
 import disnake
 from disnake.ext import commands
@@ -14,11 +17,14 @@ from config import cooldowns
 from .features import IMAGES_PATH, ImageHandler
 from .messages_cz import MessagesCZ
 
+if TYPE_CHECKING:
+    from rubbergod import Rubbergod
+
 MISSING = disnake.utils.MISSING
 
 
 class Gif(Base, commands.Cog):
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: Rubbergod):
         super().__init__()
         self.bot = bot
         self.imagehandler = ImageHandler()

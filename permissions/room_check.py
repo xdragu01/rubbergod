@@ -2,12 +2,17 @@
 Verify room permissions and determine if ephemeral messaging is necessary.
 """
 
-from typing import Union
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Union
 
 import disnake
 from disnake.ext import commands
 
 from config.app_config import config
+
+if TYPE_CHECKING:
+    from rubbergod import Rubbergod
 
 
 def is_in_modroom(ctx: Union[commands.Context, disnake.ApplicationCommandInteraction]):
@@ -21,7 +26,7 @@ def is_in_voteroom(ctx: Union[commands.Context, disnake.ApplicationCommandIntera
 
 
 class RoomCheck:
-    def __init__(self, bot):
+    def __init__(self, bot: Rubbergod):
         self.bot = bot
 
     def botroom_check(self, inter) -> bool:

@@ -1,6 +1,7 @@
 import argparse
 import logging
 
+import aiohttp
 import disnake
 from disnake import AllowedMentions, Intents, TextChannel
 from disnake.ext import commands
@@ -26,8 +27,6 @@ if args.init_db:
     migrations.init_db()
     exit(0)
 
-is_initialized = False
-
 intents = Intents.none()
 intents.guilds = True
 intents.members = True
@@ -41,6 +40,8 @@ intents.automod_execution = True
 
 
 class Rubbergod(commands.Bot):
+    rubbergod_initialized = False
+
     def __init__(self):
         super().__init__(
             command_prefix=commands.when_mentioned_or(*config.command_prefix),
@@ -57,15 +58,15 @@ class Rubbergod(commands.Bot):
         self.presence = Presence(self)
         self.err_logger = ErrorLogger(self)
 
+        self.create_sessions()
         self.init_cogs()
 
     async def on_ready(self) -> None:
         """If RubberGod is ready"""
         # Inspired from https://github.com/sinus-x/rubbergoddess/blob/master/rubbergoddess.py
-        global is_initialized
-        if is_initialized:
+        if self.rubbergod_initialized:
             return
-        is_initialized = True
+        self.rubbergod_initialized = True
 
         self.init_views()
         bot_room: TextChannel = self.get_channel(config.bot_room)
@@ -102,6 +103,22 @@ class Rubbergod(commands.Bot):
         self.add_view(ReportMessageView(self))
         self.add_view(ContestVoteView(self))
         self.add_view(ErrorView())
+
+    def create_sessions(self):
+        owner_id = str(self.owner_id)
+        rubbergod_headers = {"Author": owner_id}
+        grillbot_headers = {"ApiKey": config.grillbot_api_key, "Author": owner_id}
+        vut_api_headers = {"Authorization": f"Bearer {config.vut_api_key}", "Author": owner_id}
+
+        self.rubbergod_session = aiohttp.ClientSession(
+            timeout=aiohttp.ClientTimeout(total=10), headers=rubbergod_headers
+        )
+        self.grillbot_session = aiohttp.ClientSession(
+            timeout=aiohttp.ClientTimeout(total=10), headers=grillbot_headers
+        )
+        self.vutapi_session = aiohttp.ClientSession(
+            timeout=aiohttp.ClientTimeout(total=10), headers=vut_api_headers
+        )
 
 
 rubbergod = Rubbergod()

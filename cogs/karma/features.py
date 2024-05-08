@@ -1,8 +1,10 @@
+from __future__ import annotations
+
 import asyncio
+from typing import TYPE_CHECKING
 
 import disnake
 from disnake import Emoji
-from disnake.ext.commands import Bot
 from emoji import demojize
 
 import utils
@@ -12,6 +14,9 @@ from database.karma import KarmaDB, KarmaEmojiDB
 from features.base_feature import BaseFeature
 
 from .messages_cz import MessagesCZ
+
+if TYPE_CHECKING:
+    from rubbergod import Rubbergod
 
 
 def test_emoji(db_emoji: bytearray, server_emoji: Emoji) -> bool:
@@ -32,7 +37,7 @@ def is_unicode(text: str) -> bool:
 
 
 class Karma(BaseFeature):
-    def __init__(self, bot: Bot):
+    def __init__(self, bot: Rubbergod):
         super().__init__(bot)
         self.grillbot_api = GrillbotApi(bot)
 

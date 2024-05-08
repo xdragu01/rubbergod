@@ -2,8 +2,11 @@
 Cog for handling memes with X number of reactions to be reposted to a specific channel.
 """
 
+from __future__ import annotations
+
 import asyncio
 from functools import cached_property
+from typing import TYPE_CHECKING
 
 import disnake
 from disnake.ext import commands
@@ -20,6 +23,9 @@ from permissions import room_check
 
 from .messages_cz import MessagesCZ
 
+if TYPE_CHECKING:
+    from rubbergod import Rubbergod
+
 
 def _leaderboard_formatter(entry: BetterMemeDB, **kwargs):
     return (
@@ -29,7 +35,7 @@ def _leaderboard_formatter(entry: BetterMemeDB, **kwargs):
 
 
 class BetterMeme(Base, commands.Cog):
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: Rubbergod):
         super().__init__()
         self.bot = bot
 

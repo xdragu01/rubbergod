@@ -1,18 +1,23 @@
+from __future__ import annotations
+
 import collections
 import datetime
 import math
 import re
+from typing import TYPE_CHECKING
 
 import disnake
 import requests
 from bs4 import BeautifulSoup
 from bs4.element import NavigableString
-from disnake.ext import commands
 
 import utils
 from buttons.embed import EmbedView
 from config.app_config import config
 from database.exams import ExamsTermsMessageDB
+
+if TYPE_CHECKING:
+    from rubbergod import Rubbergod
 
 year_regex = r"[1-3][BM]IT"
 YEAR_LIST = ["1BIT", "2BIT", "3BIT", "1MIT", "2MIT"]
@@ -23,7 +28,7 @@ TIME_OFFSET = 14
 
 
 class Features:
-    def __init__(self, bot: commands.Bot) -> None:
+    def __init__(self, bot: Rubbergod) -> None:
         self.bot = bot
 
     @staticmethod

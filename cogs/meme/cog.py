@@ -2,6 +2,10 @@
 Cog for meme commands.
 """
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 import disnake
 from disnake.ext import commands
 
@@ -9,11 +13,15 @@ from cogs.base import Base
 
 from .messages_cz import MessagesCZ
 
+if TYPE_CHECKING:
+    from rubbergod import Rubbergod
+
+
 uhoh_counter = 0
 
 
 class Meme(Base, commands.Cog):
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: Rubbergod):
         super().__init__()
         self.bot = bot
 

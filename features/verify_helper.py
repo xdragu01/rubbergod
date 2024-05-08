@@ -1,21 +1,25 @@
+from __future__ import annotations
+
 import json
 from functools import cached_property
 from io import BytesIO
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
 import aiohttp
 import disnake
 from disnake import Member
-from disnake.ext.commands import Bot
 
 import utils
 from config.app_config import config
 from database import session
 from database.verification import ValidPersonDB, VerifyStatus
 
+if TYPE_CHECKING:
+    from rubbergod import Rubbergod
+
 
 class VerifyHelper:
-    def __init__(self, bot: Bot) -> None:
+    def __init__(self, bot: Rubbergod) -> None:
         self.bot = bot
 
     @cached_property

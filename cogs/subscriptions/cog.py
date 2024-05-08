@@ -2,6 +2,10 @@
 Cog implementing subscriptions to forum posts based on their tags
 """
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 import disnake
 from disnake.ext import commands
 
@@ -12,6 +16,9 @@ from config import cooldowns
 from database.subscription import AlreadyNotifiedDB, SubscriptionDB
 
 from .messages_cz import MessagesCZ
+
+if TYPE_CHECKING:
+    from rubbergod import Rubbergod
 
 
 async def autocomp_available_tags(inter: disnake.ApplicationCommandInteraction, user_input: str):
@@ -27,7 +34,7 @@ async def autocomp_subscribed_tags(inter: disnake.ApplicationCommandInteraction,
 
 
 class Subscriptions(Base, commands.Cog):
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: Rubbergod):
         super().__init__()
         self.bot = bot
 

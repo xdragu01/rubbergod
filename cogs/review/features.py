@@ -1,11 +1,13 @@
+from __future__ import annotations
+
 from datetime import datetime, time
 from enum import Enum
 from statistics import mean
+from typing import TYPE_CHECKING
 
 import disnake
 import requests
 from bs4 import BeautifulSoup
-from disnake.ext.commands import Bot
 
 import utils
 from config.app_config import config
@@ -13,6 +15,9 @@ from database.review import ProgrammeDB, ReviewDB, ReviewRelevanceDB, SubjectDB,
 from features import sports
 
 from .messages_cz import MessagesCZ
+
+if TYPE_CHECKING:
+    from rubbergod import Rubbergod
 
 
 class TierEnum(Enum):
@@ -34,7 +39,7 @@ class TierEnum(Enum):
 class ReviewManager:
     """Helper class for reviews"""
 
-    def __init__(self, bot: Bot):
+    def __init__(self, bot: Rubbergod):
         self.bot = bot
 
     def make_embed(

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import datetime
 import logging
 import sys
@@ -5,7 +7,7 @@ import traceback
 from functools import cached_property
 from io import BytesIO
 from pathlib import Path
-from typing import Dict, Union
+from typing import TYPE_CHECKING, Dict, Union
 
 import disnake
 import requests
@@ -23,6 +25,9 @@ from database.error import ErrorLogDB, ErrorRow
 from database.stats import ErrorEvent
 from permissions import custom_errors, permission_check
 
+if TYPE_CHECKING:
+    from rubbergod import Rubbergod
+
 rubbegod_logger = logging.getLogger("rubbergod")
 
 
@@ -32,7 +37,7 @@ class ContextMock:
 
     message: disnake.Message
 
-    def __init__(self, bot: commands.Bot, arg):
+    def __init__(self, bot: Rubbergod, arg):
         self.channel = getattr(arg, "channel", bot.get_channel(arg.channel_id))
         if hasattr(arg, "author"):
             self.author = arg.author
@@ -49,7 +54,7 @@ class ContextMock:
 
 
 class ErrorLogger:
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: Rubbergod):
         self.bot = bot
 
     @cached_property
@@ -250,9 +255,9 @@ class ErrorLogger:
             ]
         error_log = ErrorEvent.log(
             event_name=event,
-            cog="System",  # log all events under system cog as it is hard to find actaull cog
+            cog="System",  # log all events under system cog as it is hard to find actual cog
             datetime=datetime.datetime.now(),
-            user_id=author.id,
+            user_id=author.id if author else "rubbergod",
             args=str(args),
             exception=type(error).__name__,
             traceback="\n".join(

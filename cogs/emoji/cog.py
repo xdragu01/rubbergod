@@ -2,10 +2,13 @@
 Cog for managing server emojis. Download emojis and stickers. Get full size of emoji.
 """
 
+from __future__ import annotations
+
 import io
 import os
 import zipfile
 from datetime import time
+from typing import TYPE_CHECKING
 
 import disnake
 from disnake.ext import commands, tasks
@@ -17,9 +20,12 @@ from permissions import room_check
 
 from .messages_cz import MessagesCZ
 
+if TYPE_CHECKING:
+    from rubbergod import Rubbergod
+
 
 class Emoji(Base, commands.Cog):
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: Rubbergod):
         self.bot = bot
         self.check = room_check.RoomCheck(bot)
         self.tasks = [self.download_emojis_task.start()]

@@ -1,8 +1,14 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 import disnake
-from disnake.ext import commands
 
 import utils
 from cogs.base import Base
+
+if TYPE_CHECKING:
+    from rubbergod import Rubbergod
 
 
 def remove_prefix(text, prefix) -> str:
@@ -15,7 +21,7 @@ def icon_name(icon: disnake.Role) -> str:
     return remove_prefix(icon.name, Base.config.icon_role_prefix)
 
 
-def icon_emoji(bot: commands.Bot, icon_role: disnake.Role) -> disnake.PartialEmoji | None:
+def icon_emoji(bot: Rubbergod, icon_role: disnake.Role) -> disnake.PartialEmoji | None:
     emoji = icon_role.emoji
     if emoji is not None:  # Return Role Emoji if it is a server emoji
         return emoji

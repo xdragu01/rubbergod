@@ -5,6 +5,7 @@ Cog for handling vote reactions for contests.
 from __future__ import annotations
 
 from functools import cached_property
+from typing import TYPE_CHECKING
 
 import disnake
 from disnake.ext import commands
@@ -23,9 +24,12 @@ from .messages_cz import MessagesCZ
 from .modals import DenyContributionModal
 from .views import View
 
+if TYPE_CHECKING:
+    from rubbergod import Rubbergod
+
 
 class ContestVote(Base, commands.Cog):
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: Rubbergod):
         super().__init__()
         self.bot = bot
         self.check = RoomCheck(bot)

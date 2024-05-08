@@ -1,15 +1,20 @@
+from __future__ import annotations
+
 import datetime
+from typing import TYPE_CHECKING
 
 import disnake
-from disnake.ext.commands import Bot
 
 from config.app_config import config
 from features.base_feature import BaseFeature
 from features.git import Git
 
+if TYPE_CHECKING:
+    from rubbergod import Rubbergod
+
 
 class Presence(BaseFeature):
-    def __init__(self, bot: Bot):
+    def __init__(self, bot: Rubbergod):
         super().__init__(bot)
         self.git = Git()
 

@@ -2,10 +2,12 @@
 Cog for dynamically changing config.
 """
 
+from __future__ import annotations
+
 import re
 import shlex
 from datetime import datetime
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import disnake
 import toml
@@ -17,13 +19,16 @@ from permissions import permission_check
 
 from .messages_cz import MessagesCZ
 
+if TYPE_CHECKING:
+    from rubbergod import Rubbergod
+
 
 async def autocomp_keys(inter: disnake.ApplicationCommandInteraction, user_input: str) -> list[str]:
     return [key for key in config_get_keys() if user_input.lower() in key][:25]
 
 
 class DynamicConfig(Base, commands.Cog):
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: Rubbergod):
         super().__init__()
         self.bot = bot
 

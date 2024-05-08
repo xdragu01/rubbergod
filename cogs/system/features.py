@@ -1,7 +1,9 @@
+from __future__ import annotations
+
 import os
+from typing import TYPE_CHECKING
 
 import disnake
-from disnake.ext import commands
 from genericpath import isdir, isfile
 
 import utils
@@ -9,6 +11,9 @@ from config.app_config import config
 
 from . import features
 from .messages_cz import MessagesCZ
+
+if TYPE_CHECKING:
+    from rubbergod import Rubbergod
 
 
 def get_all_cogs() -> list[tuple[str, str]]:
@@ -52,7 +57,7 @@ async def split_cogs() -> list[list[tuple[str, str]]]:
     return all_cogs
 
 
-def create_embed(bot: commands.Bot) -> disnake.Embed:
+def create_embed(bot: Rubbergod) -> disnake.Embed:
     """Create embed with all cogs and statuses."""
     embed = disnake.Embed(title=MessagesCZ.embed_title, colour=disnake.Color.yellow())
     bot_cogs = [cog.lower() for cog in bot.cogs]

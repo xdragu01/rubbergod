@@ -2,7 +2,10 @@
 Cog for the IOS subject. Get users on merlin/eva server which have blocking processes running.
 """
 
+from __future__ import annotations
+
 import subprocess
+from typing import TYPE_CHECKING
 
 import disnake
 from disnake.ext import commands, tasks
@@ -14,9 +17,12 @@ from permissions import permission_check
 from . import features
 from .messages_cz import MessagesCZ
 
+if TYPE_CHECKING:
+    from rubbergod import Rubbergod
+
 
 class IOS(Base, commands.Cog):
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: Rubbergod):
         super().__init__()
         self.bot = bot
         self.tasks = [self.ios_task]

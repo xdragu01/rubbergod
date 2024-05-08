@@ -2,8 +2,11 @@
 Cog containing timeout commands and manipulating with timeout.
 """
 
+from __future__ import annotations
+
 import math
 from datetime import datetime, time, timedelta, timezone
+from typing import TYPE_CHECKING
 
 import aiohttp
 import disnake
@@ -19,6 +22,9 @@ from permissions import permission_check
 
 from . import features
 from .messages_cz import MessagesCZ
+
+if TYPE_CHECKING:
+    from rubbergod import Rubbergod
 
 timestamps = [
     "60s",
@@ -45,7 +51,7 @@ async def autocomplete_times(inter: disnake.ApplicationCommandInteraction, input
 
 
 class Timeout(Base, commands.Cog):
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: Rubbergod):
         super().__init__()
         self.bot = bot
         self.tasks = [self.refresh_timeout.start()]

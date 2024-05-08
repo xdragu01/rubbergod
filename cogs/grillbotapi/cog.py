@@ -2,9 +2,12 @@
 Functions and commands that communicate with the Grillbot API.
 """
 
+from __future__ import annotations
+
 import asyncio
 import json
 from io import BytesIO
+from typing import TYPE_CHECKING
 
 import aiohttp
 import disnake
@@ -12,9 +15,12 @@ from disnake.ext import commands
 
 from cogs.base import Base
 
+if TYPE_CHECKING:
+    from rubbergod import Rubbergod
+
 
 class GrillbotApi(Base, commands.Cog):
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: Rubbergod):
         super().__init__()
         self.bot = bot
         self._owner_id = bot.owner_id

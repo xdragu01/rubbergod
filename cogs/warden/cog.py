@@ -3,9 +3,12 @@ Cog for repost detection.
 """
 
 # stolen from rubbergoddess
+from __future__ import annotations
+
 import asyncio
 import logging
 import time
+from typing import TYPE_CHECKING
 
 import dhash
 import disnake
@@ -19,6 +22,9 @@ from permissions import permission_check
 from . import features
 from .messages_cz import MessagesCZ
 
+if TYPE_CHECKING:
+    from rubbergod import Rubbergod
+
 dhash.force_pil()
 rubbegod_logger = logging.getLogger("rubbergod")
 
@@ -26,7 +32,7 @@ rubbegod_logger = logging.getLogger("rubbergod")
 class Warden(Base, commands.Cog):
     """A cog for database lookups"""
 
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: Rubbergod):
         super().__init__()
         self.bot = bot
 
@@ -150,7 +156,7 @@ class Warden(Base, commands.Cog):
         )
 
     @scan.command(name="message")
-    async def scan_message(self, ctx: commands.Bot, link):
+    async def scan_message(self, ctx: Rubbergod, link):
         """Scan message attachments in whole database"""
         # TODO: implement
         pass

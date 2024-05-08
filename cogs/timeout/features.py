@@ -1,6 +1,9 @@
+from __future__ import annotations
+
 import asyncio
 import shlex
 from datetime import datetime, timedelta, timezone
+from typing import TYPE_CHECKING
 
 import aiohttp
 import disnake
@@ -12,6 +15,9 @@ from database.timeout import TimeoutDB
 from permissions.custom_errors import ApiError
 
 from .messages_cz import MessagesCZ
+
+if TYPE_CHECKING:
+    from rubbergod import Rubbergod
 
 
 def create_embed(
@@ -53,7 +59,7 @@ def add_field_timeout(
 
 
 async def timeout_embed_listing(
-    bot: commands.Bot,
+    bot: Rubbergod,
     users: list[TimeoutDB],
     title: str,
     room: disnake.TextChannel,

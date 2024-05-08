@@ -2,8 +2,11 @@
 Cog implementing commands using random module.
 """
 
+from __future__ import annotations
+
 import random
 import shlex
+from typing import TYPE_CHECKING
 
 import disnake
 from disnake.ext import commands
@@ -14,9 +17,12 @@ from permissions import room_check
 
 from .messages_cz import MessagesCZ
 
+if TYPE_CHECKING:
+    from rubbergod import Rubbergod
+
 
 class Random(Base, commands.Cog):
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: Rubbergod):
         super().__init__()
         self.bot = bot
         self.check = room_check.RoomCheck(bot)

@@ -2,8 +2,11 @@
 Cog implementing review system for subjects.
 """
 
+from __future__ import annotations
+
 import copy
 import datetime
+from typing import TYPE_CHECKING
 
 import disnake
 from disnake.ext import commands
@@ -18,6 +21,9 @@ from permissions import permission_check
 from .features import ReviewManager, TierEnum
 from .messages_cz import MessagesCZ
 from .views import View
+
+if TYPE_CHECKING:
+    from rubbergod import Rubbergod
 
 
 async def autocomp_subjects_programmes(
@@ -35,7 +41,7 @@ async def autocomp_subjects(inter: disnake.ApplicationCommandInteraction, user_i
 
 
 class Review(Base, commands.Cog):
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: Rubbergod):
         super().__init__()
         self.bot = bot
         self.manager = ReviewManager(bot)

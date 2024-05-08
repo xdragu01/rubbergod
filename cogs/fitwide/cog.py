@@ -2,10 +2,13 @@
 Cog implementing management of year roles and database of user logins.
 """
 
+from __future__ import annotations
+
 import json
 import subprocess
 from datetime import datetime, timezone
 from io import BytesIO
+from typing import TYPE_CHECKING
 
 import disnake
 from disnake.ext import commands
@@ -22,6 +25,9 @@ from permissions import permission_check, room_check
 from . import features
 from .messages_cz import MessagesCZ
 
+if TYPE_CHECKING:
+    from rubbergod import Rubbergod
+
 user_logins: list[str] = []
 
 
@@ -30,7 +36,7 @@ async def autocomp_user_logins(inter: disnake.ApplicationCommandInteraction, use
 
 
 class FitWide(Base, commands.Cog):
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: Rubbergod):
         super().__init__()
         self.bot = bot
         self.verification = Verification(bot)
