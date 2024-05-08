@@ -15,6 +15,7 @@ from cogs.base import Base
 from config import cooldowns
 from database import session
 from database.verification import PermitDB, ValidPersonDB, VerifyStatus
+from rubbergod import Rubbergod
 from features.verification import Verification
 from features.verify_helper import VerifyHelper
 from permissions import permission_check, room_check
@@ -30,7 +31,7 @@ async def autocomp_user_logins(inter: disnake.ApplicationCommandInteraction, use
 
 
 class FitWide(Base, commands.Cog):
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: Rubbergod):
         super().__init__()
         self.bot = bot
         self.verification = Verification(bot)

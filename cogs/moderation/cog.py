@@ -7,6 +7,7 @@ import disnake
 from disnake.ext import commands
 
 from cogs.base import Base
+from rubbergod import Rubbergod
 from permissions import permission_check
 
 from . import features
@@ -37,7 +38,7 @@ async def slowmode_delay_times(inter: disnake.ApplicationCommandInteraction, str
 
 
 class Moderation(Base, commands.Cog):
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: Rubbergod):
         super().__init__()
         self.bot = bot
 

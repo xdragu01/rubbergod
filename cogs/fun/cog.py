@@ -17,6 +17,7 @@ from disnake.ext import commands
 import utils
 from cogs.base import Base
 from config import cooldowns
+from rubbergod import Rubbergod
 from permissions.custom_errors import ApiError
 
 from .messages_cz import MessagesCZ
@@ -26,7 +27,7 @@ fuchs_list = os.listdir(fuchs_path)
 
 
 class Fun(Base, commands.Cog):
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: Rubbergod):
         super().__init__()
         self.bot = bot
 

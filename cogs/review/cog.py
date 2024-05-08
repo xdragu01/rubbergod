@@ -13,6 +13,7 @@ from buttons.embed import EmbedView
 from cogs.base import Base
 from config import cooldowns
 from database.review import ProgrammeDB, ReviewDB, SubjectDB, SubjectDetailsDB
+from rubbergod import Rubbergod
 from permissions import permission_check
 
 from .features import ReviewManager, TierEnum
@@ -35,7 +36,7 @@ async def autocomp_subjects(inter: disnake.ApplicationCommandInteraction, user_i
 
 
 class Review(Base, commands.Cog):
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: Rubbergod):
         super().__init__()
         self.bot = bot
         self.manager = ReviewManager(bot)

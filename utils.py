@@ -15,6 +15,7 @@ from sqlalchemy.schema import Table
 from config.app_config import config
 from config.messages import Messages
 from database import cooldown, session
+from rubbergod import Rubbergod
 from permissions.custom_errors import InvalidTime
 
 
@@ -432,7 +433,7 @@ def parse_time(time_string: str, time_format: str) -> Optional[datetime]:
     return time.astimezone(timezone.utc)
 
 
-async def get_message_from_url(bot: commands.Bot, message_url: str) -> disnake.Message | None:
+async def get_message_from_url(bot: Rubbergod, message_url: str) -> disnake.Message | None:
     link = message_url.split("/")
     msg_id = int(link[-1])
     channel_id = int(link[-2])

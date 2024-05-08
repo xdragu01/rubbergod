@@ -16,6 +16,7 @@ from config import cooldowns
 from database.error import ErrorLogDB
 from features.error import ErrorLogger
 from features.git import Git
+from rubbergod import Rubbergod
 from permissions import permission_check
 
 from . import features
@@ -26,7 +27,7 @@ boottime = datetime.now().replace(microsecond=0)
 
 
 class System(Base, commands.Cog):
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: Rubbergod):
         super().__init__()
         self.bot = bot
         self.error_log = ErrorLogger(bot)

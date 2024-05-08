@@ -11,6 +11,7 @@ from cogs.base import Base
 from config import cooldowns
 from database.hugs import HugsTableDB
 from features.leaderboard import LeaderboardPageSource
+from rubbergod import Rubbergod
 from permissions import room_check
 from utils import make_pts_column_row_formatter
 
@@ -31,7 +32,7 @@ class Hugs(Base, commands.Cog):
 
     emoji_count = len(Base.config.hug_emojis)
 
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: Rubbergod):
         super().__init__()
         self.bot = bot
         self.hugs_db = HugsTableDB()

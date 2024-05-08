@@ -15,6 +15,7 @@ from config import cooldowns
 from database.karma import KarmaDB
 from features.leaderboard import LeaderboardPageSource
 from features.reaction_context import ReactionContext
+from rubbergod import Rubbergod
 from permissions import permission_check, room_check
 
 from . import features
@@ -22,7 +23,7 @@ from .messages_cz import MessagesCZ
 
 
 class Karma(Base, commands.Cog):
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: Rubbergod):
         super().__init__()
         self.bot = bot
         self.karma_helper = features.Karma(bot)

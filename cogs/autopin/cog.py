@@ -11,6 +11,7 @@ import utils
 from cogs.base import Base
 from config import cooldowns
 from database.pin_map import PinMapDB
+from rubbergod import Rubbergod
 from permissions import permission_check, room_check
 
 from .features import PIN_CHANNEL_TYPE, AutopinFeatures
@@ -18,7 +19,7 @@ from .messages_cz import MessagesCZ
 
 
 class AutoPin(Base, commands.Cog):
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: Rubbergod):
         super().__init__()
         self.warning_time = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(
             minutes=self.config.autopin_warning_cooldown

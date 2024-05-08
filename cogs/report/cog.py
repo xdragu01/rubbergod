@@ -9,6 +9,7 @@ from buttons.general import TrashView
 from cogs.base import Base
 from config import cooldowns
 from database.report import UserDB
+from rubbergod import Rubbergod
 from permissions import permission_check
 
 from .messages_cz import MessagesCZ
@@ -16,7 +17,7 @@ from .modals import Modal
 
 
 class Report(Base, commands.Cog):
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: Rubbergod):
         super().__init__()
         self.bot = bot
 

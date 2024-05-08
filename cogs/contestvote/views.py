@@ -1,15 +1,15 @@
 from functools import cached_property
 
 import disnake
-from disnake.ext import commands
 
 from buttons.base import BaseView
 from config.app_config import config
+from rubbergod import Rubbergod
 from permissions import permission_check
 
 
 class View(BaseView):
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: Rubbergod):
         super().__init__(timeout=None)
         self.bot = bot
 

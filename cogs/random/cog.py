@@ -10,13 +10,14 @@ from disnake.ext import commands
 
 from cogs.base import Base
 from config import cooldowns
+from rubbergod import Rubbergod
 from permissions import room_check
 
 from .messages_cz import MessagesCZ
 
 
 class Random(Base, commands.Cog):
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: Rubbergod):
         super().__init__()
         self.bot = bot
         self.check = room_check.RoomCheck(bot)
