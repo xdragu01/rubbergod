@@ -18,7 +18,7 @@ if TYPE_CHECKING:
     from rubbergod import Rubbergod
 
 
-class View(BaseView):
+class ReportView(BaseView):
     def __init__(self):
         super().__init__(timeout=None)
 
@@ -160,13 +160,13 @@ class View(BaseView):
         await super().on_error(error, item, interaction)
 
 
-class ReportGeneralView(View):
+class ReportGeneralView(ReportView):
     def __init__(self, bot: Rubbergod):
         super().__init__()
         self.bot = bot
 
 
-class ReportMessageView(View):
+class ReportMessageView(ReportView):
     def __init__(self, bot: Rubbergod):
         super().__init__()
         self.bot = bot

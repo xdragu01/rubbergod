@@ -14,6 +14,7 @@ from typing import TYPE_CHECKING
 import disnake
 from disnake.ext import commands
 
+from buttons.error import ErrorView
 from cogs.base import Base
 from features.error import ErrorLogger
 
@@ -26,6 +27,11 @@ class Error(Base, commands.Cog):
         super().__init__()
         self.bot = bot
         self.logger = ErrorLogger(bot)
+
+    @commands.Cog.listener("on_ready")
+    async def init_views(self):
+        """Instantiate views for persistent interactions with bot"""
+        self.bot.add_view(ErrorView())
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx: commands.Context, error: Exception):

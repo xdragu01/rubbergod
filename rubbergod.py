@@ -7,9 +7,6 @@ from disnake import AllowedMentions, Intents, TextChannel
 from disnake.ext import commands
 
 import database.db_migrations as migrations
-from buttons.error import ErrorView
-from cogs.contestvote.views import View as ContestVoteView
-from cogs.report.views import ReportAnonymView, ReportAnswerOnlyView, ReportGeneralView, ReportMessageView
 from config.app_config import config
 from config.messages import Messages
 from features.error import ErrorLogger
@@ -58,7 +55,6 @@ class Rubbergod(commands.Bot):
         self.presence = Presence(self)
         self.err_logger = ErrorLogger(self)
 
-        self.create_sessions()
         self.init_cogs()
 
     async def on_ready(self) -> None:
@@ -68,7 +64,7 @@ class Rubbergod(commands.Bot):
             return
         self.rubbergod_initialized = True
 
-        self.init_views()
+        await self.create_sessions()
         bot_room: TextChannel = self.get_channel(config.bot_room)
         if bot_room is not None:
             await bot_room.send(Messages.on_ready_message)
@@ -95,16 +91,7 @@ class Rubbergod(commands.Bot):
             self.load_extension(f"cogs.{extension}")
             rubbergod_logger.info(f"{extension.upper()} loaded")
 
-    def init_views(self) -> None:
-        """Instantiate views for persistent interactions with bot"""
-        self.add_view(ReportAnonymView(self))
-        self.add_view(ReportAnswerOnlyView(self))
-        self.add_view(ReportGeneralView(self))
-        self.add_view(ReportMessageView(self))
-        self.add_view(ContestVoteView(self))
-        self.add_view(ErrorView())
-
-    def create_sessions(self):
+    async def create_sessions(self):
         owner_id = str(self.owner_id)
         rubbergod_headers = {"Author": owner_id}
         grillbot_headers = {"ApiKey": config.grillbot_api_key, "Author": owner_id}
