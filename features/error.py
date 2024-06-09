@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import datetime
 import logging
 import sys
@@ -7,7 +5,6 @@ import traceback
 from functools import cached_property
 from io import BytesIO
 from pathlib import Path
-from typing import TYPE_CHECKING, Dict, Union
 
 import disnake
 import requests
@@ -23,10 +20,8 @@ from config.messages import Messages
 from database import session
 from database.error import ErrorLogDB, ErrorRow
 from database.stats import ErrorEvent
+from features.rg import Rubbergod
 from permissions import custom_errors, permission_check
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
 
 rubbegod_logger = logging.getLogger("rubbergod")
 
@@ -130,7 +125,7 @@ class ErrorLogger:
         author: disnake.User,
         guild: disnake.Guild,
         jump_url: str | None,
-        extra_fields: Dict[str, str] = None,
+        extra_fields: dict[str, str] = None,
     ):
         count = self.log_error_time()
         embed = disnake.Embed(
@@ -163,7 +158,7 @@ class ErrorLogger:
             # some new command probably? there aren't other options at the moment
             raise NotImplementedError
 
-    async def _parse_context(self, ctx: Union[disnake.ApplicationCommandInteraction, commands.Context]):
+    async def _parse_context(self, ctx: disnake.ApplicationCommandInteraction | commands.Context):
         if isinstance(ctx, disnake.ApplicationCommandInteraction):
             args = " ".join(f"{key}={item}" for key, item in ctx.filled_options.items())
             prefix = self._get_app_cmd_prefix(ctx.application_command)
@@ -185,7 +180,7 @@ class ErrorLogger:
 
     async def handle_error(
         self,
-        ctx: Union[disnake.ApplicationCommandInteraction, commands.Context],
+        ctx: disnake.ApplicationCommandInteraction | commands.Context,
         error: Exception,
     ):
         if await self.ignore_errors(ctx, error):
@@ -341,7 +336,7 @@ class ErrorLogger:
 
     async def ignore_errors(
         self,
-        ctx: Union[disnake.ApplicationCommandInteraction, commands.Context, ContextMock],
+        ctx: disnake.ApplicationCommandInteraction | commands.Context | ContextMock,
         error: BaseException,
     ) -> bool:
         """Handle general errors that can be ignored or responded to user

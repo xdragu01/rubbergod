@@ -1,13 +1,9 @@
-from __future__ import annotations
-
 import asyncio
 from collections import OrderedDict
-from typing import TYPE_CHECKING
 
 import disnake
 
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
+from features.rg import Rubbergod
 
 
 class PromptSession:

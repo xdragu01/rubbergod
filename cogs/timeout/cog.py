@@ -2,11 +2,8 @@
 Cog containing timeout commands and manipulating with timeout.
 """
 
-from __future__ import annotations
-
 import math
 from datetime import datetime, time, timedelta, timezone
-from typing import TYPE_CHECKING
 
 import aiohttp
 import disnake
@@ -18,13 +15,11 @@ from cogs.base import Base
 from config import cooldowns
 from database.report import ReportDB
 from database.timeout import TimeoutDB, TimeoutUserDB
+from features.rg import Rubbergod
 from permissions import permission_check
 
 from . import features
 from .messages_cz import MessagesCZ
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
 
 timestamps = [
     "60s",

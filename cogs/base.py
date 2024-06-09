@@ -2,17 +2,12 @@
 Base cog class. All cogs should inherit from this class.
 """
 
-from __future__ import annotations
-
 from functools import cached_property
-from typing import TYPE_CHECKING
 
 import disnake
 
 from config.app_config import config
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
+from features.rg import Rubbergod
 
 
 class Base:

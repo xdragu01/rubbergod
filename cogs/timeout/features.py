@@ -1,9 +1,6 @@
-from __future__ import annotations
-
 import asyncio
 import shlex
 from datetime import datetime, timedelta, timezone
-from typing import TYPE_CHECKING
 
 import aiohttp
 import disnake
@@ -12,12 +9,10 @@ from disnake.ext import commands
 import utils
 from config.app_config import config
 from database.timeout import TimeoutDB
+from features.rg import Rubbergod
 from permissions.custom_errors import ApiError
 
 from .messages_cz import MessagesCZ
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
 
 
 def create_embed(

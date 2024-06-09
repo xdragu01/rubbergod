@@ -1,9 +1,6 @@
-from __future__ import annotations
-
 import json
 from functools import cached_property
 from io import BytesIO
-from typing import TYPE_CHECKING, Optional
 
 import aiohttp
 import disnake
@@ -13,9 +10,7 @@ import utils
 from config.app_config import config
 from database import session
 from database.verification import ValidPersonDB, VerifyStatus
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
+from features.rg import Rubbergod
 
 
 class VerifyHelper:
@@ -34,7 +29,7 @@ class VerifyHelper:
             member = await guild.fetch_member(user.id)
             return utils.has_role(member, role_name)
 
-    async def get_user_details(self, id: str) -> Optional[dict]:
+    async def get_user_details(self, id: str) -> dict | None:
         headers = {"Authorization": f"Bearer {config.vut_api_key}"}
         url = f"https://www.vut.cz/api/person/v1/{id}/pusobeni-osoby"
         async with aiohttp.ClientSession() as session:
@@ -48,7 +43,7 @@ class VerifyHelper:
                     return None
                 return await res.json()
 
-    async def _parse_relation(self, user: dict) -> Optional[str]:
+    async def _parse_relation(self, user: dict) -> str | None:
         """Parse user relations and return year, programee and faculty for students,
         `employee` for FIT employees, None for others."""
         ret = None  # rule out students that are also employees or have multiple studies

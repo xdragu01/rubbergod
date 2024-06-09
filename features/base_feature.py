@@ -1,11 +1,6 @@
-from __future__ import annotations
-
-from typing import TYPE_CHECKING
-
 from disnake import Embed, TextChannel
 
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
+from features.rg import Rubbergod
 
 
 class BaseFeature:

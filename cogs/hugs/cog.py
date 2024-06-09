@@ -2,10 +2,6 @@
 Cog implementing hug commands. Send hug to user and see leaderboard.
 """
 
-from __future__ import annotations
-
-from typing import TYPE_CHECKING
-
 import disnake
 from disnake.ext import commands
 
@@ -15,13 +11,11 @@ from cogs.base import Base
 from config import cooldowns
 from database.hugs import HugsTableDB
 from features.leaderboard import LeaderboardPageSource
+from features.rg import Rubbergod
 from permissions import room_check
 from utils import make_pts_column_row_formatter
 
 from .messages_cz import MessagesCZ
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
 
 
 def _tophugs_formatter(entry: HugsTableDB, **kwargs):

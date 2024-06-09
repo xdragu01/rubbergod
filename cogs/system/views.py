@@ -1,18 +1,13 @@
-from __future__ import annotations
-
 import logging
-from typing import TYPE_CHECKING
 
 import disnake
 
 from buttons.base import BaseView
+from features.rg import Rubbergod
 from permissions import permission_check
 
 from . import features
 from .messages_cz import MessagesCZ
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
 
 rubbergod_logger = logging.getLogger("rubbergod")
 

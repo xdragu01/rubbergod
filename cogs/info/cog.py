@@ -3,10 +3,6 @@ Cog containing commands that get basic information from other sources.
 examples - urban meaning of word, weather at location
 """
 
-from __future__ import annotations
-
-from typing import TYPE_CHECKING
-
 import disnake
 import requests
 from disnake.ext import commands
@@ -15,11 +11,9 @@ import utils
 from buttons.embed import EmbedView
 from cogs.base import Base
 from config import cooldowns
+from features.rg import Rubbergod
 
 from .messages_cz import MessagesCZ
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
 
 
 class Info(Base, commands.Cog):

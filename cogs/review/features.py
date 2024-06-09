@@ -1,9 +1,6 @@
-from __future__ import annotations
-
 from datetime import datetime, time
 from enum import Enum
 from statistics import mean
-from typing import TYPE_CHECKING
 
 import disnake
 import requests
@@ -13,11 +10,9 @@ import utils
 from config.app_config import config
 from database.review import ProgrammeDB, ReviewDB, ReviewRelevanceDB, SubjectDB, SubjectDetailsDB
 from features import sports
+from features.rg import Rubbergod
 
 from .messages_cz import MessagesCZ
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
 
 
 class TierEnum(Enum):

@@ -1,17 +1,11 @@
-from __future__ import annotations
-
-from typing import TYPE_CHECKING
-
 import disnake
 
 from buttons.general import TrashView
 from database.contestvote import ContestVoteDB
+from features.rg import Rubbergod
 
 from . import features
 from .messages_cz import MessagesCZ
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
 
 
 class DenyContributionModal(disnake.ui.Modal):

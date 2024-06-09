@@ -2,10 +2,7 @@
 Cog for creating gifs.
 """
 
-from __future__ import annotations
-
 from io import BytesIO
-from typing import TYPE_CHECKING
 
 import disnake
 from disnake.ext import commands
@@ -13,12 +10,10 @@ from PIL import Image
 
 from cogs.base import Base
 from config import cooldowns
+from features.rg import Rubbergod
 
 from .features import IMAGES_PATH, ImageHandler
 from .messages_cz import MessagesCZ
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
 
 MISSING = disnake.utils.MISSING
 

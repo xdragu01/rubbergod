@@ -2,22 +2,16 @@
 Cog for sending and managing messages sent by bot.
 """
 
-from __future__ import annotations
-
-from typing import TYPE_CHECKING
-
 import disnake
 from disnake.ext import commands
 
 from cogs.base import Base
 from config import cooldowns
+from features.rg import Rubbergod
 from permissions import permission_check
 
 from .messages_cz import MessagesCZ
 from .modals import Modal
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
 
 
 class Message(Base, commands.Cog):

@@ -2,13 +2,10 @@
 Core cog for bot. Can't be unloaded. Contains commands for cog management.
 """
 
-from __future__ import annotations
-
 import platform
 import subprocess
 from datetime import datetime
 from io import BytesIO
-from typing import TYPE_CHECKING
 
 import disnake
 from disnake.ext import commands
@@ -19,14 +16,12 @@ from config import cooldowns
 from database.error import ErrorLogDB
 from features.error import ErrorLogger
 from features.git import Git
+from features.rg import Rubbergod
 from permissions import permission_check
 
 from . import features
 from .messages_cz import MessagesCZ
 from .views import View
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
 
 boottime = datetime.now().replace(microsecond=0)
 

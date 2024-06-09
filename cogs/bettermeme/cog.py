@@ -2,11 +2,8 @@
 Cog for handling memes with X number of reactions to be reposted to a specific channel.
 """
 
-from __future__ import annotations
-
 import asyncio
 from functools import cached_property
-from typing import TYPE_CHECKING
 
 import disnake
 from disnake.ext import commands
@@ -19,12 +16,10 @@ from database.karma import KarmaDB, KarmaEmojiDB
 from database.meme_repost import MemeRepostDB
 from features.leaderboard import LeaderboardPageSource
 from features.reaction_context import ReactionContext
+from features.rg import Rubbergod
 from permissions import room_check
 
 from .messages_cz import MessagesCZ
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
 
 
 def _leaderboard_formatter(entry: BetterMemeDB, **kwargs):

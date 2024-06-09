@@ -2,10 +2,7 @@
 Cog containing information about week (odd/even) and its relation to calendar/academic week.
 """
 
-from __future__ import annotations
-
 from datetime import date
-from typing import TYPE_CHECKING
 
 import disnake
 from disnake.ext import commands
@@ -13,11 +10,9 @@ from disnake.ext import commands
 import utils
 from cogs.base import Base
 from config import cooldowns
+from features.rg import Rubbergod
 
 from .messages_cz import MessagesCZ
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
 
 
 class Week(Base, commands.Cog):

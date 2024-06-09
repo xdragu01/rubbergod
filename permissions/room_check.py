@@ -2,25 +2,19 @@
 Verify room permissions and determine if ephemeral messaging is necessary.
 """
 
-from __future__ import annotations
-
-from typing import TYPE_CHECKING, Union
-
 import disnake
 from disnake.ext import commands
 
 from config.app_config import config
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
+from features.rg import Rubbergod
 
 
-def is_in_modroom(ctx: Union[commands.Context, disnake.ApplicationCommandInteraction]):
+def is_in_modroom(ctx: commands.Context | disnake.ApplicationCommandInteraction):
     """Check if the command is invoked in modroom"""
     return ctx.channel.id == config.mod_room
 
 
-def is_in_voteroom(ctx: Union[commands.Context, disnake.ApplicationCommandInteraction]):
+def is_in_voteroom(ctx: commands.Context | disnake.ApplicationCommandInteraction):
     """Check if the command is invoked in voteroom"""
     return ctx.channel.id == config.vote_room
 

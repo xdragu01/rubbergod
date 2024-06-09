@@ -2,10 +2,7 @@
 Cog controlling auto pinning of messages. Create priority pinned messages in channels.
 """
 
-from __future__ import annotations
-
 import datetime
-from typing import TYPE_CHECKING
 
 import disnake
 from disnake.ext import commands
@@ -14,13 +11,11 @@ import utils
 from cogs.base import Base
 from config import cooldowns
 from database.pin_map import PinMapDB
+from features.rg import Rubbergod
 from permissions import permission_check, room_check
 
 from .features import PIN_CHANNEL_TYPE, AutopinFeatures
 from .messages_cz import MessagesCZ
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
 
 
 class AutoPin(Base, commands.Cog):

@@ -1,16 +1,11 @@
-from __future__ import annotations
-
 import datetime
-from typing import TYPE_CHECKING
 
 import disnake
 
 from config.app_config import config
 from features.base_feature import BaseFeature
 from features.git import Git
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
+from features.rg import Rubbergod
 
 
 class Presence(BaseFeature):

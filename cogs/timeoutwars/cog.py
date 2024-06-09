@@ -4,14 +4,12 @@ When a message has X number of 🔇 reactions,
 the bot will mute the user or on random mute the one with reaction.
 """
 
-from __future__ import annotations
-
 import csv
 import os
 import random
 from datetime import datetime, timezone
 from functools import cached_property
-from typing import TYPE_CHECKING, Union
+from typing import Union
 
 import disnake
 from disnake.ext import commands, tasks
@@ -20,11 +18,9 @@ import utils
 from cogs.base import Base
 from config.app_config import config
 from database.timeout import TimeoutUserDB
+from features.rg import Rubbergod
 
 from .messages_cz import MessagesCZ
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
 
 path_to_icons = "cogs/timeoutwars/images/"
 icons_list = os.listdir(path_to_icons)

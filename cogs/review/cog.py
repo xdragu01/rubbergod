@@ -2,11 +2,8 @@
 Cog implementing review system for subjects.
 """
 
-from __future__ import annotations
-
 import copy
 import datetime
-from typing import TYPE_CHECKING
 
 import disnake
 from disnake.ext import commands
@@ -16,14 +13,12 @@ from buttons.embed import EmbedView
 from cogs.base import Base
 from config import cooldowns
 from database.review import ProgrammeDB, ReviewDB, SubjectDB, SubjectDetailsDB
+from features.rg import Rubbergod
 from permissions import permission_check
 
 from .features import ReviewManager, TierEnum
 from .messages_cz import MessagesCZ
 from .views import View
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
 
 
 async def autocomp_subjects_programmes(

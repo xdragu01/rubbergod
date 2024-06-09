@@ -1,14 +1,8 @@
-from __future__ import annotations
-
-from typing import TYPE_CHECKING
-
 import disnake
 
 import utils
 from cogs.base import Base
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
+from features.rg import Rubbergod
 
 
 def remove_prefix(text, prefix) -> str:

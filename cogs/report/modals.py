@@ -1,7 +1,4 @@
-from __future__ import annotations
-
 from functools import cached_property
-from typing import TYPE_CHECKING
 
 import disnake
 from disnake.ext import commands
@@ -10,12 +7,10 @@ import utils
 from cogs.report.views import ReportGeneralView, ReportMessageView
 from config.app_config import config
 from database.report import ReportDB, UserDB
+from features.rg import Rubbergod
 
 from . import features as report_features
 from .messages_cz import MessagesCZ
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
 
 
 class Modal(disnake.ui.Modal):

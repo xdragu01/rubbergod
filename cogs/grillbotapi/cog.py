@@ -2,21 +2,16 @@
 Functions and commands that communicate with the Grillbot API.
 """
 
-from __future__ import annotations
-
 import asyncio
 import json
 from io import BytesIO
-from typing import TYPE_CHECKING
 
 import aiohttp
 import disnake
 from disnake.ext import commands
 
 from cogs.base import Base
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
+from features.rg import Rubbergod
 
 
 class GrillbotApi(Base, commands.Cog):

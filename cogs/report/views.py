@@ -1,21 +1,16 @@
-from __future__ import annotations
-
 from functools import cached_property
-from typing import TYPE_CHECKING
 
 import disnake
 
 from buttons.base import BaseView
 from config.app_config import config
 from database.report import AnswerDB, ReportDB
+from features.rg import Rubbergod
 from permissions import permission_check
 
 from . import features as report_features
 from .features_errors import ButtonInteractionError
 from .messages_cz import MessagesCZ
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
 
 
 class ReportView(BaseView):

@@ -2,22 +2,16 @@
 Cog implementing information about office hours of the study department.
 """
 
-from __future__ import annotations
-
-from typing import TYPE_CHECKING
-
 import disnake
 import requests
 from disnake.ext import commands
 from lxml import etree
 
 from cogs.base import Base
+from features.rg import Rubbergod
 from utils import add_author_footer
 
 from .messages_cz import MessagesCZ
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
 
 
 class Studijni(Base, commands.Cog):

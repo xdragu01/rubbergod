@@ -3,12 +3,9 @@ Cog for repost detection.
 """
 
 # stolen from rubbergoddess
-from __future__ import annotations
-
 import asyncio
 import logging
 import time
-from typing import TYPE_CHECKING
 
 import dhash
 import disnake
@@ -17,13 +14,11 @@ from disnake.ext import commands
 import utils
 from cogs.base import Base
 from database.image import ImageDB
+from features.rg import Rubbergod
 from permissions import permission_check
 
 from . import features
 from .messages_cz import MessagesCZ
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
 
 dhash.force_pil()
 rubbegod_logger = logging.getLogger("rubbergod")

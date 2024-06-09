@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import random
 import re
 import smtplib
@@ -7,7 +5,6 @@ import ssl
 import string
 from datetime import datetime
 from email.mime.text import MIMEText
-from typing import TYPE_CHECKING
 
 import disnake
 
@@ -17,10 +14,8 @@ from cogs.verify.views_verify import VerifyView, VerifyWithResendButtonView
 from config.app_config import config
 from database.verification import ValidPersonDB, VerifyStatus
 from features.base_feature import BaseFeature
+from features.rg import Rubbergod
 from features.verify_helper import VerifyHelper
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
 
 MIT_SPECIALIZATIONS = [
     "MBS", "MBI", "MIS", "MIN", "MMI", "MMM", "MGM", "MGMe",

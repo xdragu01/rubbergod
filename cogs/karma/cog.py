@@ -2,10 +2,7 @@
 Cog implementing karma system. Users can give each other positive/negative karma points with reactions.
 """
 
-from __future__ import annotations
-
 import math
-from typing import TYPE_CHECKING
 
 import disnake
 from disnake.ext import commands, tasks
@@ -18,13 +15,11 @@ from config import cooldowns
 from database.karma import KarmaDB
 from features.leaderboard import LeaderboardPageSource
 from features.reaction_context import ReactionContext
+from features.rg import Rubbergod
 from permissions import permission_check, room_check
 
 from . import features
 from .messages_cz import MessagesCZ
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
 
 
 class Karma(Base, commands.Cog):

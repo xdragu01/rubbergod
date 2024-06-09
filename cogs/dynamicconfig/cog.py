@@ -2,12 +2,10 @@
 Cog for dynamically changing config.
 """
 
-from __future__ import annotations
-
 import re
 import shlex
 from datetime import datetime
-from typing import TYPE_CHECKING, Any
+from typing import Any
 
 import disnake
 import toml
@@ -15,12 +13,10 @@ from disnake.ext import commands
 
 from cogs.base import Base
 from config.app_config import CONFIG_PATH, config_get_keys, load_config
+from features.rg import Rubbergod
 from permissions import permission_check
 
 from .messages_cz import MessagesCZ
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
 
 
 async def autocomp_keys(inter: disnake.ApplicationCommandInteraction, user_input: str) -> list[str]:

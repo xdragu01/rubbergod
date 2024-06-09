@@ -3,10 +3,7 @@ Cog to parse exams data from website and send it to channel.
 Available for each year of study.
 """
 
-from __future__ import annotations
-
 import re
-from typing import TYPE_CHECKING
 
 import disnake
 from disnake.ext import commands, tasks
@@ -14,13 +11,11 @@ from disnake.ext import commands, tasks
 from cogs.base import Base
 from config import cooldowns
 from database.exams import ExamsTermsMessageDB
+from features.rg import Rubbergod
 from permissions import permission_check
 
 from .features import YEAR_LIST, Features, year_regex
 from .messages_cz import MessagesCZ
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
 
 
 class Exams(Base, commands.Cog):

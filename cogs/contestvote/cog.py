@@ -2,10 +2,7 @@
 Cog for handling vote reactions for contests.
 """
 
-from __future__ import annotations
-
 from functools import cached_property
-from typing import TYPE_CHECKING
 
 import disnake
 from disnake.ext import commands
@@ -16,6 +13,7 @@ from cogs.base import Base
 from config import cooldowns
 from database.contestvote import ContestVoteDB
 from features.reaction_context import ReactionContext
+from features.rg import Rubbergod
 from permissions.permission_check import submod_plus
 from permissions.room_check import RoomCheck
 
@@ -23,9 +21,6 @@ from . import features
 from .messages_cz import MessagesCZ
 from .modals import DenyContributionModal
 from .views import ContestView
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
 
 
 class ContestVote(Base, commands.Cog):

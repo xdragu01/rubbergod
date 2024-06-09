@@ -2,11 +2,8 @@
 Cog for sending name days and birthdays.
 """
 
-from __future__ import annotations
-
 import asyncio
 from datetime import date, time
-from typing import TYPE_CHECKING
 
 import aiohttp
 import disnake
@@ -14,12 +11,10 @@ from disnake.ext import commands, tasks
 
 import utils
 from cogs.base import Base
+from features.rg import Rubbergod
 from permissions import room_check
 
 from .messages_cz import MessagesCZ
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
 
 
 class Nameday(Base, commands.Cog):

@@ -2,10 +2,7 @@
 Cog for finding rooms on FIT BUT.
 """
 
-from __future__ import annotations
-
 from io import BytesIO
-from typing import TYPE_CHECKING
 
 import disnake
 import requests
@@ -16,11 +13,9 @@ from disnake.ext import commands
 import utils
 from cogs.base import Base
 from config import cooldowns
+from features.rg import Rubbergod
 
 from .messages_cz import MessagesCZ
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
 
 
 class FitRoom(Base, commands.Cog):

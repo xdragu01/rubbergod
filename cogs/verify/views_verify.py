@@ -1,19 +1,13 @@
-from __future__ import annotations
-
-from typing import TYPE_CHECKING
-
 import disnake
 
 from buttons.base import BaseView
 from config.app_config import config
 from database.verification import ValidPersonDB
 from features import verification
+from features.rg import Rubbergod
 
 from .messages_cz import MessagesCZ
 from .modals_verify import VerifyModal
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
 
 
 class VerifyView(BaseView):

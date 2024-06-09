@@ -2,10 +2,6 @@
 Cog for handling reactions and delegating to specific cog.
 """
 
-from __future__ import annotations
-
-from typing import TYPE_CHECKING
-
 import disnake
 import sqlalchemy
 from disnake.ext import commands
@@ -13,9 +9,7 @@ from disnake.ext import commands
 from cogs.base import Base
 from database import session
 from features.reaction_context import ReactionContext
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
+from features.rg import Rubbergod
 
 
 class Reactions(Base, commands.Cog):

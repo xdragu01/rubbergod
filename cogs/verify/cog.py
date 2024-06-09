@@ -2,10 +2,7 @@
 Cog for verification system. Enables users to verify themselves with xlogin00 and gain access to server.
 """
 
-from __future__ import annotations
-
 from io import BytesIO
-from typing import TYPE_CHECKING
 
 import disnake
 from disnake.ext import commands
@@ -14,15 +11,13 @@ from cogs.base import Base
 from config import cooldowns
 from database.verification import DynamicVerifyDB
 from features import verification
+from features.rg import Rubbergod
 from features.table_generator import TableGenerator
 from permissions import permission_check, room_check
 
 from .features_dynamic_verify import DynamicVerifyManager
 from .messages_cz import MessagesCZ
 from .modals_dynamic_verify import DynamicVerifyEditModal
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
 
 
 async def dynamic_verify_rules_autocomplete(inter: disnake.ApplicationCommandInteraction, user_input: str):

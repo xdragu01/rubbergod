@@ -2,23 +2,18 @@
 Cog implementing commands using random module.
 """
 
-from __future__ import annotations
-
 import random
 import shlex
-from typing import TYPE_CHECKING
 
 import disnake
 from disnake.ext import commands
 
 from cogs.base import Base
 from config import cooldowns
+from features.rg import Rubbergod
 from permissions import room_check
 
 from .messages_cz import MessagesCZ
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
 
 
 class Random(Base, commands.Cog):

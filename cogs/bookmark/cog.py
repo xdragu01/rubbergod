@@ -2,21 +2,15 @@
 Cog controlling bookmarks. React with bookmark emoji and the bot will send copy of message to user.
 """
 
-from __future__ import annotations
-
-from typing import TYPE_CHECKING
-
 import disnake
 from disnake.ext import commands
 
 from cogs.base import Base
+from features.rg import Rubbergod
 
 from .features import Features
 from .modals import Modal
 from .views import View
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
 
 
 class Bookmark(Base, commands.Cog):

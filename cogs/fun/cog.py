@@ -2,8 +2,6 @@
 Cog containing commands that call random APIs for fun things.
 """
 
-from __future__ import annotations
-
 import contextlib
 import os
 import random
@@ -11,7 +9,6 @@ import re
 from datetime import datetime
 from io import BytesIO
 from random import randint
-from typing import TYPE_CHECKING
 
 import aiohttp
 import disnake
@@ -20,12 +17,10 @@ from disnake.ext import commands
 import utils
 from cogs.base import Base
 from config import cooldowns
+from features.rg import Rubbergod
 from permissions.custom_errors import ApiError
 
 from .messages_cz import MessagesCZ
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
 
 fuchs_path = "cogs/fun/fuchs/"
 fuchs_list = os.listdir(fuchs_path)

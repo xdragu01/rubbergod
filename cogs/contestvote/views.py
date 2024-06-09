@@ -1,16 +1,11 @@
-from __future__ import annotations
-
 from functools import cached_property
-from typing import TYPE_CHECKING
 
 import disnake
 
 from buttons.base import BaseView
 from config.app_config import config
+from features.rg import Rubbergod
 from permissions import permission_check
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
 
 
 class ContestView(BaseView):

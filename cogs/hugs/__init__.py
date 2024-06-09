@@ -1,11 +1,6 @@
-from __future__ import annotations
-
-from typing import TYPE_CHECKING
+from features.rg import Rubbergod
 
 from .cog import Hugs
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
 
 
 def setup(bot: Rubbergod):

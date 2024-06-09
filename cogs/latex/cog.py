@@ -2,12 +2,9 @@
 Cog for interpreting latex commands as images.
 """
 
-from __future__ import annotations
-
 import asyncio
 import io
 import urllib
-from typing import TYPE_CHECKING
 
 import aiohttp
 import disnake
@@ -15,11 +12,9 @@ from disnake.ext import commands
 
 from cogs.base import Base
 from config import cooldowns
+from features.rg import Rubbergod
 
 from .messages_cz import MessagesCZ
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
 
 PNG_HEADER = b"\x89PNG\r\n\x1a\n"
 

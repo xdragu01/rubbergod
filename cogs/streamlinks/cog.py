@@ -2,11 +2,8 @@
 Cog implementing streamlinks system. List streams for a subject.
 """
 
-from __future__ import annotations
-
 import re
 from datetime import datetime, timezone
-from typing import TYPE_CHECKING
 
 import disnake
 import requests
@@ -23,12 +20,10 @@ from database.review import SubjectDB
 from database.streamlinks import StreamLinkDB
 from features.list_message_sender import send_list_of_messages
 from features.prompt import PromptSession
+from features.rg import Rubbergod
 from permissions import permission_check, room_check
 
 from .messages_cz import MessagesCZ
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
 
 # Pattern: "AnyText | [Subject] Page: CurrentPage / {TotalPages}"
 pagination_regex = re.compile(r"^\[([^\]]*)\]\s*Page:\s*(\d*)\s*\/\s*(\d*)")

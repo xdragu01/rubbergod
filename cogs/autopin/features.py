@@ -1,17 +1,13 @@
-from __future__ import annotations
-
 import datetime
 import io
 import json
-from typing import TYPE_CHECKING, TypeAlias
+from typing import TypeAlias
 
 import disnake
 
 import utils
 from config.app_config import config
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
+from features.rg import Rubbergod
 
 PIN_CHANNEL_TYPE: TypeAlias = disnake.TextChannel | disnake.Thread
 

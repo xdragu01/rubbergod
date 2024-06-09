@@ -1,7 +1,4 @@
-from __future__ import annotations
-
 import asyncio
-from typing import TYPE_CHECKING
 
 import disnake
 from disnake import Emoji
@@ -12,11 +9,9 @@ from cogs.grillbotapi.cog import GrillbotApi
 from config.app_config import config
 from database.karma import KarmaDB, KarmaEmojiDB
 from features.base_feature import BaseFeature
+from features.rg import Rubbergod
 
 from .messages_cz import MessagesCZ
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
 
 
 def test_emoji(db_emoji: bytearray, server_emoji: Emoji) -> bool:

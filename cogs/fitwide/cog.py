@@ -2,13 +2,10 @@
 Cog implementing management of year roles and database of user logins.
 """
 
-from __future__ import annotations
-
 import json
 import subprocess
 from datetime import datetime, timezone
 from io import BytesIO
-from typing import TYPE_CHECKING
 
 import disnake
 from disnake.ext import commands
@@ -18,15 +15,13 @@ from cogs.base import Base
 from config import cooldowns
 from database import session
 from database.verification import PermitDB, ValidPersonDB, VerifyStatus
+from features.rg import Rubbergod
 from features.verification import Verification
 from features.verify_helper import VerifyHelper
 from permissions import permission_check, room_check
 
 from . import features
 from .messages_cz import MessagesCZ
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
 
 user_logins: list[str] = []
 

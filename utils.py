@@ -1,10 +1,8 @@
-from __future__ import annotations
-
 import math
 import re
 import time
 from datetime import datetime, timezone
-from typing import TYPE_CHECKING, Callable, Iterable, List, Literal, Optional, Tuple, Union
+from typing import Callable, Iterable, List, Literal, Optional, Tuple, Union
 
 import disnake
 from dateutil import parser
@@ -17,10 +15,8 @@ from sqlalchemy.schema import Table
 from config.app_config import config
 from config.messages import Messages
 from database import cooldown, session
+from features.rg import Rubbergod
 from permissions.custom_errors import InvalidTime
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
 
 
 def generate_mention(user_id):

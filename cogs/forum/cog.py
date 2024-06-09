@@ -2,17 +2,11 @@
 Cog managing threads in forums (auto-archive, etc.).
 """
 
-from __future__ import annotations
-
-from typing import TYPE_CHECKING
-
 import disnake
 from disnake.ext import commands
 
 from cogs.base import Base
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
+from features.rg import Rubbergod
 
 
 class Forum(Base, commands.Cog):

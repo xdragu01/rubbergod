@@ -7,19 +7,13 @@ Listeners catch errors from commands and send a response to the user.
 If an error remains uncaught, the entire traceback is printed to the bot_dev_channel.
 """
 
-from __future__ import annotations
-
-from typing import TYPE_CHECKING
-
 import disnake
 from disnake.ext import commands
 
 from buttons.error import ErrorView
 from cogs.base import Base
 from features.error import ErrorLogger
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
+from features.rg import Rubbergod
 
 
 class Error(Base, commands.Cog):

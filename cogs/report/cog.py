@@ -2,10 +2,6 @@
 Cog implementing anonymous reporting from users.
 """
 
-from __future__ import annotations
-
-from typing import TYPE_CHECKING
-
 import disnake
 from disnake.ext import commands
 
@@ -13,14 +9,12 @@ from buttons.general import TrashView
 from cogs.base import Base
 from config import cooldowns
 from database.report import UserDB
+from features.rg import Rubbergod
 from permissions import permission_check
 
 from .messages_cz import MessagesCZ
 from .modals import Modal
 from .views import ReportAnonymView, ReportAnswerOnlyView, ReportGeneralView, ReportMessageView
-
-if TYPE_CHECKING:
-    from rubbergod import Rubbergod
 
 
 class Report(Base, commands.Cog):
